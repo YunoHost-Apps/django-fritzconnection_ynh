@@ -295,7 +295,7 @@ sqlparse = ">=0.2.0"
 
 [[package]]
 name = "django-fritzconnection"
-version = "0.0.2rc0"
+version = "0.0.2rc1"
 description = "Web based FritzBox management using Python/Django."
 category = "main"
 optional = false
@@ -947,7 +947,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<4.0.0"
-content-hash = "88a8f1159a0ce286bc00f820a82df8729ee45f44ea9d8e8a90ab26b60ac1e4f3"
+content-hash = "8f3f43b394d701d10e15f02cea8b141f719e80b65bc2340332685c92512bb8be"
 
 [metadata.files]
 asgiref = [
@@ -1107,8 +1107,8 @@ django-debug-toolbar = [
     {file = "django_debug_toolbar-3.2.4-py3-none-any.whl", hash = "sha256:6b633b6cfee24f232d73569870f19aa86c819d750e7f3e833f2344a9eb4b4409"},
 ]
 django-fritzconnection = [
-    {file = "django-fritzconnection-0.0.2rc0.tar.gz", hash = "sha256:53904dc03672059d0459ec6e27badce3554802bae15b93e24ecc422fc6c45cc0"},
-    {file = "django_fritzconnection-0.0.2rc0-py3-none-any.whl", hash = "sha256:703c3f26f653073e5a183150b9d23e4ac0c7597abb9ff16fc833ff1b7fd5c5a2"},
+    {file = "django-fritzconnection-0.0.2rc1.tar.gz", hash = "sha256:d996ec1d65c4b2f43b90b5f346964be5e885cf36721cc0f42a7952aad824c950"},
+    {file = "django_fritzconnection-0.0.2rc1-py3-none-any.whl", hash = "sha256:3c08cdd2d2d92ca08c9d10d4d1cc1df91aa1f5c83488b8fba6e6847f26800976"},
 ]
 django-ipware = [
     {file = "django-ipware-4.0.2.tar.gz", hash = "sha256:602a58325a4808bd19197fef2676a0b2da2df40d0ecf21be414b2ff48c72ad05"},
