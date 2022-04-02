@@ -1,0 +1,43 @@
+{
+	"name": "django-fritzconnection",
+	"id": "django-fritzconnection",
+	"packaging_format": 1,
+	"description": {
+		"en": "Web based FritzBox management using Python/Django."
+	},
+	"version": "0.0.2-alpha~ynh1",
+	"url": "https://github.com/jedie/django-fritzconnection",
+	"license": "GPL-3.0",
+	"maintainer": {
+		"name": "Jens Diemer",
+		"email": "django-fritzconnection_ynh@jensdiemer.de"
+	},
+	"previous_maintainers": [],
+	"requirements": {
+		"yunohost": ">= 4.0"
+	},
+	"multi_instance": true,
+	"services": [
+		"nginx"
+	],
+	"arguments": {
+		"install" : [
+			{
+				"name": "domain",
+				"type": "domain",
+				"example": "domain.org"
+			},
+			{
+				"name": "path",
+				"type": "path",
+				"example": "/django-fritzconnection",
+				"default": "/django-fritzconnection"
+			},
+			{
+				"name": "admin",
+				"type": "user",
+				"example": "johndoe"
+			}
+		]
+	}
+}
