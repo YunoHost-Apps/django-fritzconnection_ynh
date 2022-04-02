@@ -101,7 +101,7 @@ addopts = """
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = px310,py39,py38
+envlist = px310,py39,py38,py37
 skip_missing_interpreters = True
 
 [testenv]
