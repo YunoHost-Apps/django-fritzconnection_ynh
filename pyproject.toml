@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-fritzconnection_ynh"
-version = "0.0.2.rc0~ynh1"
+version = "0.0.2.rc1~ynh1"
 description = "Test django-fritzconnection_ynh via local_test.py"
 authors = ["JensDiemer <git@jensdiemer.de>"]
 license = "GPL"
@@ -39,7 +39,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.darker]
 src = ['.']
 revision = "origin/master..."
-line_length = 120
+line_length = 100
 verbose = true
 skip_string_normalization = true
 diff = false
@@ -53,14 +53,14 @@ log_level = "INFO"
 
 
 [tool.flynt]
-line_length = 120
+line_length = 100
 
 
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/config_files/#pyprojecttoml-preferred-format
 atomic=true
 profile='black'
-line_length=120
+line_length=100
 skip_glob=["*/htmlcov/*","*/migrations/*"]
 known_first_party=["djfritz","djfritz_project","djfritz_tests"]
 lines_after_imports=2
