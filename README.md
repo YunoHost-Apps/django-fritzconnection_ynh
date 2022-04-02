@@ -13,33 +13,10 @@ Pull requests welcome ;)
 
 ## Overview
 
-[django-fritzconnection](https://github.com/jedie/django-fritzconnection) is a libre web-based management to catalog things including state and location etc. using [Python](https://www.python.org/)/[Django](https://www.djangoproject.com/).
+[django-fritzconnection](https://github.com/jedie/django-fritzconnection) is a libre Web based FritzBox management using [Python](https://www.python.org/)/[Django](https://www.djangoproject.com/).
 
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
-## Screenshots
-
-More screenshots are here: [jedie.github.io/tree/master/screenshots/django-fritzconnection](https://github.com/jedie/jedie.github.io/blob/master/screenshots/django-fritzconnection/README.creole)
-
-----
-
-![django-fritzconnection v0.2.0](https://raw.githubusercontent.com/jedie/jedie.github.io/master/screenshots/django-fritzconnection/django-fritzconnection%20v0.2.0%20screenshot%201.png)
-
-----
-
-![django-fritzconnection v0.1.0 screenshot 2](https://raw.githubusercontent.com/jedie/jedie.github.io/master/screenshots/django-fritzconnection/django-fritzconnection%20v0.1.0%20screenshot%202.png)
-
-----
-
-![django-fritzconnection v0.11.0 screenshot memo](https://raw.githubusercontent.com/jedie/jedie.github.io/master/screenshots/django-fritzconnection/django-fritzconnection%20v0.11.0%20screenshot%20memo%201.png)
-
-----
-
-![django-fritzconnection v0.1.0 screenshot 3](https://raw.githubusercontent.com/jedie/jedie.github.io/master/screenshots/django-fritzconnection/django-fritzconnection%20v0.1.0%20screenshot%203.png)
-
-----
-
-More screenshots are here: [jedie.github.io/tree/master/screenshots/django-fritzconnection](https://github.com/jedie/jedie.github.io/blob/master/screenshots/django-fritzconnection/README.creole)
 
 ## Settings and upgrades
 
