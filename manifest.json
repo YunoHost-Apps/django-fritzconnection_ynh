@@ -10,8 +10,6 @@
     "upstream": {
         "license": "GPL-3.0",
         "website": "https://github.com/jedie/django-fritzconnection",
-        "admindoc": "https://github.com/jedie/django-fritzconnection",
-        "userdoc": "https://github.com/jedie/django-fritzconnection",
         "code": "https://github.com/jedie/django-fritzconnection"
     },
 	"license": "GPL-3.0",
