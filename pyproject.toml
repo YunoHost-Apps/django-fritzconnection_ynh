@@ -1,13 +1,14 @@
 [tool.poetry]
 name = "django-fritzconnection_ynh"
-version = "0.0.2-alpha~ynh1"
+version = "0.0.2.rc1~ynh1"
 description = "Test django-fritzconnection_ynh via local_test.py"
 authors = ["JensDiemer <git@jensdiemer.de>"]
 license = "GPL"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0.0"
-django-fritzconnection = ">=0.0.2-alpha"
+# Keep Python 3.7 until Yunohost contains a newer Python Version ;)
+python = ">=3.7,<4.0.0"
+django-fritzconnection = ">=0.0.2rc1"
 
 # Note: "ynh" extras will install gunicorn, psycopg2, django-redis and django-axes
 django_yunohost_integration = {version = ">=v0.2.0", extras = ["ynh"]}
@@ -38,7 +39,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.darker]
 src = ['.']
 revision = "origin/master..."
-line_length = 120
+line_length = 100
 verbose = true
 skip_string_normalization = true
 diff = false
@@ -52,14 +53,14 @@ log_level = "INFO"
 
 
 [tool.flynt]
-line_length = 120
+line_length = 100
 
 
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/config_files/#pyprojecttoml-preferred-format
 atomic=true
 profile='black'
-line_length=120
+line_length=100
 skip_glob=["*/htmlcov/*","*/migrations/*"]
 known_first_party=["djfritz","djfritz_project","djfritz_tests"]
 lines_after_imports=2
@@ -100,7 +101,7 @@ addopts = """
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = px310,py39,py38
+envlist = px310,py39,py38,py37
 skip_missing_interpreters = True
 
 [testenv]
