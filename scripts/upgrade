@@ -21,7 +21,11 @@ domain=$(ynh_app_setting_get --app="$app" --key=domain)
 path_url=$(ynh_app_setting_get --app="$app" --key=path)
 
 port=$(ynh_app_setting_get --app="$app" --key=port)
+
 db_pwd=$(ynh_app_setting_get --app="$app" --key=psqlpwd)
+db_name=$(ynh_sanitize_dbid --db_name="$app")
+db_user=$db_name
+
 admin_mail=$(ynh_user_get_info "$admin" mail)
 redis_db=$(ynh_app_setting_get --app="$app" --key=redis_db)
 
@@ -118,8 +122,9 @@ ynh_replace_string --match_string="__LOG_FILE__" --replace_string="$log_file" --
 ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_file="$gunicorn_conf"
 ynh_store_file_checksum --file="$gunicorn_conf"
 
-ynh_backup_if_checksum_is_different --file="$final_path/manage.py"
 cp ../conf/manage.py "$final_path/manage.py"
+ynh_replace_string --match_string="__FINAL_HOME_PATH__" --replace_string="$final_path" --target_file="$final_path/manage.py"
+ynh_store_file_checksum --file="$final_path/manage.py"
 chmod +x "$final_path/manage.py"
 
 # save old settings file
@@ -129,6 +134,8 @@ ynh_backup_if_checksum_is_different --file="$settings"
 cp "../conf/settings.py" "$settings"
 
 ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="$settings"
+ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$settings"
+ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_user" --target_file="$settings"
 ynh_replace_string --match_string="__DB_PWD__" --replace_string="$db_pwd" --target_file="$settings"
 ynh_replace_string --match_string="__ADMIN__" --replace_string="$admin" --target_file="$settings"
 ynh_replace_string --match_string="__ADMINMAIL__" --replace_string="$admin_mail" --target_file="$settings"
@@ -159,25 +166,21 @@ touch "$final_path/local_settings.py"
 #=================================================
 ynh_script_progression --message="migrate/collectstatic/createadmin..." --weight=10
 
-(
-	set +o nounset
-	source "${final_path}/venv/bin/activate"
-	set -o nounset
-	cd "${final_path}"
+cd "$final_path" || exit
 
-  # Just for debugging:
-  ./manage.py diffsettings
+# Just for debugging:
+./manage.py diffsettings
 
-	./manage.py migrate --no-input
-	./manage.py collectstatic --no-input
+./manage.py migrate --no-input
+./manage.py collectstatic --no-input
 
-	# Create/update Django superuser (set unusable password, because auth done via SSOwat):
-	./manage.py create_superuser --username="$admin" --email="$admin_mail"
+# Create/update Django superuser (set unusable password, because auth done via SSOwat):
+./manage.py create_superuser --username="$admin" --email="$admin_mail"
 
-	# Check the configuration
-	# This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
-	./manage.py check --deploy || true
-)
+# Check the configuration
+# This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
+./manage.py check --deploy || true
+
 
 #=================================================
 # SETUP LOGROTATE
