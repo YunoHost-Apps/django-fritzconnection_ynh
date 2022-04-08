@@ -1,6 +1,6 @@
 # django-fritzconnection pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Niveau d'intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)  
 [![Installer django-fritzconnection avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
 *[Read this readme in english.](./README.md)*
@@ -16,6 +16,11 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 **Version incluse :** 0.1.0.rc1~ynh1
 
 
+
+## Captures d'écran
+
+![](./doc/screenshots/v0.0.2 - hosts change list.png)
+![](./doc/screenshots/v0.1.0.rc1 - Group Management.png)
 
 ## Avertissements / informations importantes
 
