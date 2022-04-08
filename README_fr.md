@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 
 
-**Version incluse :** 0.0.2~ynh1
+**Version incluse :** 0.1.0.rc1~ynh1
 
 
 
