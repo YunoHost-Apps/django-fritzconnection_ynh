@@ -37,8 +37,8 @@ This package for YunoHost used [django-yunohost-integration](https://github.com/
 
 ## Screenshots
 
-![](./doc/screenshots/v0.0.2 - hosts change list.png)
-![](./doc/screenshots/v0.1.0.rc1 - Group Management.png)
+![](./doc/screenshots/v002_hosts_change_list.png)
+![](./doc/screenshots/v010rc1_group_management.png)
 
 ## Disclaimers / important information
 
