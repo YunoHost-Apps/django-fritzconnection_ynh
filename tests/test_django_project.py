@@ -58,7 +58,14 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
 
         response = self.client.get('/app_path/', secure=True)
         self.assertRedirects(
-            response, expected_url='/app_path/admin/', fetch_redirect_response=False
+            response, expected_url='/app_path/group_management/', fetch_redirect_response=False
+        )
+
+        response = self.client.get('/app_path/group_management/', secure=True)
+        self.assertRedirects(
+            response,
+            expected_url='/app_path/admin/login/?next=/app_path/group_management/',
+            fetch_redirect_response=False,
         )
 
         response = self.client.get('/app_path/admin/', secure=True)
