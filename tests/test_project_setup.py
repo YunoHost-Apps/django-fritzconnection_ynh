@@ -4,7 +4,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from bx_py_utils.path import assert_is_file
+from bx_django_utils.filename import clean_filename
+from bx_py_utils.path import assert_is_dir, assert_is_file
 
 import djfritz
 
@@ -69,3 +70,20 @@ def test_requirements_txt():
     )
     print(diff)
     assert diff == '', f'{requirements_txt} is not up-to-date! (Hint: call: "make update")'
+
+
+def test_screenshot_filenames():
+    """
+    https://forum.yunohost.org/t/yunohost-bot-cant-handle-spaces-in-screenshots/19483
+    """
+    screenshot_path = PACKAGE_ROOT / 'doc' / 'screenshots'
+    assert_is_dir(screenshot_path)
+    renamed = []
+    for file_path in screenshot_path.iterdir():
+        file_name = file_path.name
+        cleaned_name = clean_filename(file_name)
+        if cleaned_name != file_name:
+            new_path = file_path.with_name(cleaned_name)
+            file_path.rename(new_path)
+            renamed.append(f'{file_name!r} renamed to {cleaned_name!r}')
+    assert not renamed, f'Bad screenshots file names found: {", ".join(renamed)}'
