@@ -40,9 +40,9 @@ django-axes==5.31.0; python_version >= "3.7" and python_full_version < "4.0.0" \
 django-debug-toolbar==3.2.4; python_version >= "3.7" and python_full_version < "4.0.0" \
     --hash=sha256:644bbd5c428d3283aa9115722471769cac1bec189edf3a0c855fd8ff870375a9 \
     --hash=sha256:6b633b6cfee24f232d73569870f19aa86c819d750e7f3e833f2344a9eb4b4409
-django-fritzconnection==0.1.0rc1; python_version >= "3.7" and python_full_version < "4.0.0" \
-    --hash=sha256:6a8c5f64ed6ca81fa866924ce337aee9fe634442fb53e8f59df4ebfd31dfcffe \
-    --hash=sha256:d2b3faafb8c52ef93a2c071be575bf4af691a703e38d23f3f2e35a7f930913b1
+django-fritzconnection==0.1.0; python_version >= "3.7" and python_full_version < "4.0.0" \
+    --hash=sha256:f1eb6c2d99f1d417a7ce0ed73b2aaea0788b0d743ae699b5b2abbdd0f1806458 \
+    --hash=sha256:89f820756d4194c0361ba87a3ba3b945c99976dab0beb4bf1d3422cbeb68047c
 django-ipware==4.0.2; python_version >= "3.7" and python_full_version < "3.0.0" or python_version >= "3.7" and python_full_version < "4.0.0" and python_full_version >= "3.6.0" \
     --hash=sha256:602a58325a4808bd19197fef2676a0b2da2df40d0ecf21be414b2ff48c72ad05 \
     --hash=sha256:878dbb06a87e25550798e9ef3204ed70a200dd8b15e47dcef848cf08244f04c9
