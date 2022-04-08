@@ -15,18 +15,10 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Web based FritzBox management using Python/Django.
+Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 
-**Shipped version:** 0.1.0.rc1~ynh1
+The basic idea is to block/unblock Internet access to a group of devices as easily as possible.
 
-
-
-## Screenshots
-
-![](./doc/screenshots/v0.0.2 - hosts change list.png)
-![](./doc/screenshots/v0.1.0.rc1 - Group Management.png)
-
-## Disclaimers / important information
 
 [![pytest](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml/badge.svg?branch=master)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml) [![YunoHost apps package linter](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml/badge.svg)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml) [![Coverage Status on codecov.io](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh/branch/master/graph/badge.svg)](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh)
 
@@ -38,6 +30,17 @@ Pull requests welcome ;)
 
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
+
+**Shipped version:** 0.1.0.rc1~ynh1
+
+
+
+## Screenshots
+
+![](./doc/screenshots/v0.0.2 - hosts change list.png)
+![](./doc/screenshots/v0.1.0.rc1 - Group Management.png)
+
+## Disclaimers / important information
 
 ## Settings and upgrades
 
