@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Web based FritzBox management using Python/Django.
 
-**Shipped version:** 0.0.3~ynh1
+**Shipped version:** 0.1.0.rc1~ynh1
 
 
 
