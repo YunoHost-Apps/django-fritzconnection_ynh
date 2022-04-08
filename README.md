@@ -15,20 +15,32 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Web based FritzBox management using Python/Django.
+Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 
-**Shipped version:** 0.0.2~ynh1
+The basic idea is to block/unblock Internet access to a group of devices as easily as possible.
 
-
-
-## Disclaimers / important information
 
 [![pytest](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml/badge.svg?branch=master)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml) [![YunoHost apps package linter](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml/badge.svg)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml) [![Coverage Status on codecov.io](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh/branch/master/graph/badge.svg)](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh)
+
+![django-fritzconnection @ PyPi](https://img.shields.io/pypi/v/django-fritzconnection?label=django-fritzconnection%20%40%20PyPi)
+![Python Versions](https://img.shields.io/pypi/pyversions/django-fritzconnection)
+![License GPL V3+](https://img.shields.io/pypi/l/django-fritzconnection)
 
 Pull requests welcome ;)
 
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
+
+**Shipped version:** 0.1.0~ynh1
+
+
+
+## Screenshots
+
+![](./doc/screenshots/v002_hosts_change_list.png)
+![](./doc/screenshots/v010rc1_group_management.png)
+
+## Disclaimers / important information
 
 ## Settings and upgrades
 
