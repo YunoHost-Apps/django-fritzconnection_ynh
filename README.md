@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # django-fritzconnection for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Integration level](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)  
 [![Install django-fritzconnection with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
 *[Lire ce readme en français.](./README_fr.md)*
