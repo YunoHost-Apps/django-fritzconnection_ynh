@@ -13,10 +13,9 @@ from pathlib import Path as __Path
 
 from django_yunohost_integration.base_settings import *  # noqa
 from django_yunohost_integration.secret_key import get_or_create_secret as __get_or_create_secret
+
 from djfritz_project.settings.base import *  # noqa
 
-
-DEBUG = False  # Don't turn DEBUG on in production!
 
 # -----------------------------------------------------------------------------
 
