@@ -29,6 +29,8 @@ db_user=$db_name
 admin_mail=$(ynh_user_get_info "$admin" mail)
 redis_db=$(ynh_app_setting_get --app="$app" --key=redis_db)
 
+django_debug=$(ynh_app_setting_get --app="$app" --key=django_debug)
+
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -51,6 +53,13 @@ ynh_abort_if_errors
 ynh_script_progression --message="Stopping systemd services..." --weight=5
 
 ynh_systemd_action --service_name="$app" --action="stop"
+
+#=================================================
+# Manage old settings
+#=================================================
+
+# Always deactivate settings.DEBUG:
+ynh_app_setting_set --app=$app --key=django_debug --value="0"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -159,7 +168,9 @@ cp ../conf/urls.py "$final_path/urls.py"
 ynh_backup_if_checksum_is_different --file="$final_path/wsgi.py"
 cp ../conf/wsgi.py "$final_path/wsgi.py"
 
-touch "$final_path/local_settings.py"
+# Regenerate a fresh local_settings:
+ynh_backup_if_checksum_is_different --file="$final_path/local_settings.py"
+ynh_add_config --template="local_settings.py" --destination="$final_path/local_settings.py"
 
 #=================================================
 # MIGRATE PYINVENTORY

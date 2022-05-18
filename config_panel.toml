@@ -1,0 +1,20 @@
+# https://github.com/YunoHost/example_ynh/blob/master/config_panel.toml.example
+
+version = "1.0"
+
+[main]
+name = "Settings"
+
+    [main.djfritz_config]
+    name = "django-fritzconnection configuration"
+
+    # Trigger a service reload-or-restart after the user change a question in this panel
+    services = ["__APP__"]
+
+        [main.djfritz_config.django_debug]
+        ask = "debug mode"
+        help = "Important: Never activate this settings.DEBUG on production!"
+        type = "boolean"
+        yes = "True"
+        no = "False"
+        bind = "DJANGO_DEBUG:/opt/yunohost/__APP__/local_settings.py"

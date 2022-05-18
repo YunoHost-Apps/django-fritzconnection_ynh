@@ -57,6 +57,9 @@ db_pwd=$(ynh_app_setting_get --app="$app" --key=psqlpwd)
 admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 redis_db=$(ynh_redis_get_free_db)
 
+# Always deactivate settings.DEBUG:
+ynh_app_setting_set --app=$app --key=django_debug --value="0"
+
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
@@ -164,7 +167,7 @@ cp ../conf/setup_user.py "$final_path/setup_user.py"
 cp ../conf/urls.py "$final_path/urls.py"
 cp ../conf/wsgi.py "$final_path/wsgi.py"
 
-touch "$final_path/local_settings.py"
+ynh_add_config --template="local_settings.py" --destination="$final_path/local_settings.py"
 
 #=================================================
 # MIGRATE / COLLECTSTATIC / CREATEADMIN
