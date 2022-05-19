@@ -19,7 +19,7 @@
 	},
 	"previous_maintainers": [],
 	"requirements": {
-		"yunohost": ">= 4.0"
+		"yunohost": ">= 4.3.0"
 	},
 	"multi_instance": true,
 	"services": [
@@ -41,6 +41,6 @@
 				"name": "admin",
 				"type": "user"
             }
-		]
+        ]
 	}
 }
