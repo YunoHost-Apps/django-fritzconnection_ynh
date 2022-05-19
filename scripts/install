@@ -58,7 +58,7 @@ admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 redis_db=$(ynh_redis_get_free_db)
 
 # Always deactivate settings.DEBUG:
-ynh_app_setting_set --app=$app --key=django_debug --value="0"
+ynh_app_setting_set --app=$app --key=django_debug --value="false"
 
 #=================================================
 # STANDARD MODIFICATIONS
