@@ -22,9 +22,6 @@ final_path=/opt/yunohost/$app
 log_path=/var/log/$app
 log_file="${log_path}/django-fritzconnection.log"
 
-# Default: settings.DEBUG=False
-django_debug="False"
-
 #=================================================
 # COMMON VARIABLES
 #=================================================
