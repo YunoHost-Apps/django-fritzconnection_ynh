@@ -1,9 +1,11 @@
 import difflib
+import json
 import os
 import shutil
 import subprocess
 from pathlib import Path
 
+import tomli
 from bx_django_utils.filename import clean_filename
 from bx_py_utils.path import assert_is_dir, assert_is_file
 
@@ -13,23 +15,29 @@ import djfritz
 PACKAGE_ROOT = Path(__file__).parent.parent
 
 
-def assert_file_contains_string(file_path, string):
-    with file_path.open('r') as f:
-        for line in f:
-            if string in line:
-                return
-    raise AssertionError(f'File {file_path} does not contain {string!r} !')
+def assert_is_ynh_version(version: str, package_version: str):
+    assert '~ynh' in version
+    assert version[0].isdigit()
+    assert version.startswith(package_version)
+    assert version[-1].isdigit()
 
 
 def test_version():
-    version = djfritz.__version__
+    package_version = djfritz.__version__
+    assert package_version[0].isdigit()
+    assert '~ynh' not in package_version
 
-    assert_file_contains_string(
-        file_path=Path(PACKAGE_ROOT, 'pyproject.toml'), string=f'version = "{version}~ynh'
+    pyproject_toml_path = Path(PACKAGE_ROOT, 'pyproject.toml')
+    assert_is_file(pyproject_toml_path)
+    pyproject_toml = tomli.loads(pyproject_toml_path.read_text(encoding='UTF-8'))
+    assert_is_ynh_version(
+        version=pyproject_toml['tool']['poetry']['version'], package_version=package_version
     )
-    assert_file_contains_string(
-        file_path=Path(PACKAGE_ROOT, 'manifest.json'), string=f'"version": "{version}~ynh'
-    )
+
+    manifest_json_path = Path(PACKAGE_ROOT, 'manifest.json')
+    assert_is_file(manifest_json_path)
+    manifest = json.loads(manifest_json_path.read_text(encoding='utf-8'))
+    assert_is_ynh_version(version=manifest['version'], package_version=package_version)
 
 
 def poetry_check_output(*args):
@@ -37,7 +45,7 @@ def poetry_check_output(*args):
 
     output = subprocess.check_output(
         (poerty_bin,) + args,
-        universal_newlines=True,
+        text=True,
         env=os.environ,
         stderr=subprocess.STDOUT,
         cwd=str(PACKAGE_ROOT),
@@ -52,7 +60,7 @@ def test_poetry_check():
 
 
 def test_requirements_txt():
-    requirements_txt = Path('conf', 'requirements.txt')
+    requirements_txt = PACKAGE_ROOT / 'conf' / 'requirements.txt'
     assert_is_file(requirements_txt)
 
     output = poetry_check_output('export', '-f', 'requirements.txt')

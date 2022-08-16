@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MAX_LINE_LENGTH := 119
+MAX_LINE_LENGTH := 100
 
 all: help
 
@@ -45,7 +45,7 @@ tox: check-poetry ## Run pytest via tox with all environments
 	poetry run tox
 
 pytest: install  ## Run pytest
-	poetry run python3 ./run_pytest.py
+	poetry run pytest
 
 local-test: install  ## Run local_test.py to run the project locally
 	poetry run python3 ./local_test.py

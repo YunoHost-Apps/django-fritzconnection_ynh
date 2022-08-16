@@ -22,6 +22,12 @@ def main():
         django_settings_path=BASE_PATH / 'conf' / 'settings.py',
         destination=BASE_PATH / 'local_test',
         runserver=True,
+        extra_replacements={
+            '__DEBUG_ENABLED__': '1',
+            '__LOG_LEVEL__': 'DEBUG',
+            '__ADMIN_EMAIL__': 'foo-bar@test.tld',
+            '__DEFAULT_FROM_EMAIL__': 'django_app@test.tld',
+        },
     )
 
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from axes.models import AccessLog
 from bx_django_utils.test_utils.html_assertion import HtmlAssertionMixin
 from django.conf import LazySettings, settings
 from django.contrib.auth.models import User
@@ -32,11 +33,18 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
             path = str(path)
             assert path.endswith(end_text)
 
-        assert_path(settings.FINAL_HOME_PATH, '/local_test/opt_yunohost')
-        assert_path(settings.FINAL_WWW_PATH, '/local_test/var_www')
+        assert_path(settings.FINALPATH, '/local_test/opt_yunohost')
+        assert_path(settings.PUBLIC_PATH, '/local_test/var_www')
         assert_path(settings.LOG_FILE, '/local_test/var_log_django-fritzconnection.log')
 
         assert settings.ROOT_URLCONF == 'urls'
+
+    def test_config_panel_settings(self):
+        # config_panel.toml settings, set via tests.conftest.pytest_configure():
+        assert settings.DEBUG_ENABLED == '0' and settings.DEBUG is False
+        assert settings.LOG_LEVEL == 'INFO'
+        assert settings.ADMIN_EMAIL == 'foo-bar@test.tld'
+        assert settings.DEFAULT_FROM_EMAIL == 'django_app@test.tld'
 
     def test_urls(self):
         assert reverse('admin:index') == '/app_path/admin/'
@@ -86,13 +94,14 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
             HTTP_REMOTE_USER='test',
             HTTP_AUTH_USER='test',
             HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',
+            secure=True,
         )
 
         assert User.objects.count() == 1
         user = User.objects.first()
         assert user.username == 'test'
         assert user.is_active is True
-        assert user.is_staff is True  # Set by: django_yunohost_integration
+        assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
         assert user.is_superuser is False
 
         assert response.status_code == 200
@@ -110,6 +119,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
     @override_settings(SECURE_SSL_REDIRECT=False)
     def test_wrong_auth_user(self):
         assert User.objects.count() == 0
+        assert AccessLog.objects.count() == 0
 
         self.client.cookies['SSOwAuthUser'] = 'test'
 
@@ -118,20 +128,24 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
             HTTP_REMOTE_USER='test',
             HTTP_AUTH_USER='foobar',  # <<< wrong user name
             HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',
+            secure=True,
         )
 
         assert User.objects.count() == 1
         user = User.objects.first()
         assert user.username == 'test'
         assert user.is_active is True
-        assert user.is_staff is True  # Set by: django_yunohost_integration
+        assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
         assert user.is_superuser is False
+
+        assert AccessLog.objects.count() == 1
 
         assert response.status_code == 403  # Forbidden
 
     @override_settings(SECURE_SSL_REDIRECT=False)
     def test_wrong_cookie(self):
         assert User.objects.count() == 0
+        assert AccessLog.objects.count() == 0
 
         self.client.cookies['SSOwAuthUser'] = 'foobar'  # <<< wrong user name
 
@@ -140,14 +154,17 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
             HTTP_REMOTE_USER='test',
             HTTP_AUTH_USER='test',
             HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',
+            secure=True,
         )
 
         assert User.objects.count() == 1
         user = User.objects.first()
         assert user.username == 'test'
         assert user.is_active is True
-        assert user.is_staff is True  # Set by: django_yunohost_integration
+        assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
         assert user.is_superuser is False
+
+        assert AccessLog.objects.count() == 1
 
         assert response.status_code == 403  # Forbidden
 
@@ -162,15 +179,19 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
             HTTP_REMOTE_USER='test',
             HTTP_AUTH_USER='test',
             HTTP_AUTHORIZATION=generate_basic_auth(
-                username='foobar', password='test123'
-            ),  # <<< wrong user name
+                username='foobar',  # <<< wrong user name
+                password='test123',
+            ),
+            secure=True,
         )
 
         assert User.objects.count() == 1
         user = User.objects.first()
         assert user.username == 'test'
         assert user.is_active is True
-        assert user.is_staff is True  # Set by: django_yunohost_integration
+        assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
         assert user.is_superuser is False
+
+        assert AccessLog.objects.count() == 1
 
         assert response.status_code == 403  # Forbidden
