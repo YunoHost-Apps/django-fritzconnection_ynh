@@ -11,11 +11,13 @@
 
 from pathlib import Path as __Path
 
-from django.core.validators import EmailValidator as __EmailValidator
-from django_yunohost_integration.base_settings import *  # noqa
+from django_yunohost_integration.base_settings import *  # noqa:F401,F403
 from django_yunohost_integration.secret_key import get_or_create_secret as __get_or_create_secret
 
-from djfritz_project.settings.base import *  # noqa
+from djfritz_project.settings.base import *  # noqa:F401,F403
+
+
+from django_yunohost_integration.base_settings import LOGGING  # noqa:F401 isort:skip
 
 
 FINALPATH = __Path('__FINALPATH__')  # /opt/yunohost/$app
@@ -33,29 +35,13 @@ PATH_URL = PATH_URL.strip('/')
 # -----------------------------------------------------------------------------
 # config_panel.toml settings:
 
-
 DEBUG_ENABLED = '__DEBUG_ENABLED__'
+DEBUG = bool(int(DEBUG_ENABLED))
+
 LOG_LEVEL = '__LOG_LEVEL__'
 ADMIN_EMAIL = '__ADMIN_EMAIL__'
 DEFAULT_FROM_EMAIL = '__DEFAULT_FROM_EMAIL__'
 
-# -----------------------------------------------------------------------------
-# Use/convert/validate config_panel.toml settings:
-
-DEBUG = bool(int(DEBUG_ENABLED))
-assert LOG_LEVEL in (
-    'DEBUG',
-    'INFO',
-    'WARNING',
-    'ERROR',
-    'CRITICAL',
-), f'Invalid LOG_LEVEL: {LOG_LEVEL!r}'
-__EmailValidator(
-    message='ADMIN_EMAIL %(value)r from config panel is not valid!',
-)(ADMIN_EMAIL)
-__EmailValidator(
-    message='DEFAULT_FROM_EMAIL %(value)r from config panel is not valid!',
-)(DEFAULT_FROM_EMAIL)
 
 # -----------------------------------------------------------------------------
 
@@ -92,11 +78,12 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = None
 LOGIN_URL = '/yunohost/sso/'
 LOGOUT_REDIRECT_URL = '/yunohost/sso/'
+# /yunohost/sso/?action=logout
 
+ROOT_URLCONF = 'urls'  # .../conf/urls.py
 
 # -----------------------------------------------------------------------------
 
-ROOT_URLCONF = 'urls'  # ./conf/urls.py
 
 ADMINS = (('__ADMIN__', ADMIN_EMAIL),)
 
@@ -125,7 +112,7 @@ EMAIL_SUBJECT_PREFIX = f'[{SITE_TITLE}] '
 
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = 'noreply@__DOMAIN__'
+SERVER_EMAIL = ADMIN_EMAIL
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
@@ -163,54 +150,19 @@ MEDIA_ROOT = str(PUBLIC_PATH / 'media')
 
 # -----------------------------------------------------------------------------
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '{asctime} {levelname} {name} {module}.{funcName} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'formatter': 'verbose',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        },
-        'log_file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.WatchedFileHandler',
-            'formatter': 'verbose',
-            'filename': str(LOG_FILE),
-        },
-    },
-    'loggers': {
-        '': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
-        'django': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
-        'axes': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
-        'django_tools': {
-            'handlers': ['log_file', 'mail_admins'],
-            'level': LOG_LEVEL,
-            'propagate': False,
-        },
-        'django_yunohost_integration': {
-            'handlers': ['log_file', 'mail_admins'],
-            'level': LOG_LEVEL,
-            'propagate': False,
-        },
-        'djfritz': {
-            'handlers': ['log_file', 'mail_admins'],
-            'level': LOG_LEVEL,
-            'propagate': False,
-        },
-    },
+# Set log file to e.g.: /var/log/$app/$app.log
+LOGGING['handlers']['log_file']['filename'] = str(LOG_FILE)
+
+# Example how to add logging to own app:
+LOGGING['loggers']['djfritz'] = {
+    'handlers': ['syslog', 'log_file', 'mail_admins'],
+    'level': 'INFO',
+    'propagate': False,
 }
 
 # -----------------------------------------------------------------------------
 
 try:
-    from local_settings import *  # noqa
+    from local_settings import *  # noqa:F401,F403
 except ImportError:
     pass

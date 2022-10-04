@@ -1,22 +1,25 @@
 [tool.poetry]
 name = "django-fritzconnection_ynh"
-version = "0.2.0~ynh2"
+version = "0.2.0+ynh2"
 description = "Test django-fritzconnection_ynh via local_test.py"
 authors = ["JensDiemer <git@jensdiemer.de>"]
 license = "GPL"
+homepage = "https://github.com/YunoHost-Apps/django-fritzconnection_ynh"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues"
 
 [tool.poetry.dependencies]
-# Keep Python 3.7 until Yunohost contains a newer Python Version ;)
-python = ">=3.7,<4.0.0"
+python = ">=3.7,<4.0.0"  # TODO: Update to >=3.8 after YunoHost updates to Bullseye
 django-fritzconnection = ">=0.2.0"
 
-# Note: "ynh" extras will install gunicorn, psycopg2, django-redis and django-axes
-django_yunohost_integration = {version = ">=v0.3.0", extras = ["ynh"]}
-
-psycopg2 = "*" # https://www.psycopg.org/docs/install.html#build-prerequisites
+# extras "ynh" will install: gunicorn, psycopg2, django-redis and django-axes
+# see: https://github.com/YunoHost-Apps/django_yunohost_integration/blob/main/pyproject.toml
+django_yunohost_integration = {version = ">=0.4.1", extras = ["ynh"]}  # https://github.com/YunoHost-Apps/django_yunohost_integration
 
 [tool.poetry.dev-dependencies]
 bx_py_utils = "*"  # https://github.com/boxine/bx_py_utils
+bx_django_utils = "*"  # https://github.com/boxine/bx_django_utils
 tox = "*"
 pytest = "*"
 pytest-cov = "*"
@@ -25,9 +28,14 @@ pytest-darker = "*"  # https://github.com/akaihola/pytest-darker
 coveralls = "*"
 isort = "*"
 flake8 = "*"
+EditorConfig = "*"  # https://github.com/editorconfig/editorconfig-core-py
+safety = "*"  # https://github.com/pyupio/safety
+requests = "*"  # https://github.com/psf/requests
+packaging = "*"  # https://github.com/pypa/packagi
+
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
@@ -47,16 +55,12 @@ lint = [
 log_level = "INFO"
 
 
-[tool.flynt]
-line_length = 100
-
-
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/config_files/#pyprojecttoml-preferred-format
 atomic=true
 profile='black'
+skip_glob=["*/htmlcov/*","*/migrations/*","*/local_test/*"]
 line_length=100
-skip_glob=["*/htmlcov/*","*/migrations/*"]
 known_first_party=["djfritz","djfritz_project","djfritz_tests"]
 lines_after_imports=2
 
@@ -86,7 +90,6 @@ addopts = """
     --failed-first
     --new-first
 """
-# TODO: --mypy
 
 
 [tool.coverage.run]

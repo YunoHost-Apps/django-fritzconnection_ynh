@@ -24,9 +24,6 @@ def main():
         runserver=True,
         extra_replacements={
             '__DEBUG_ENABLED__': '1',
-            '__LOG_LEVEL__': 'DEBUG',
-            '__ADMIN_EMAIL__': 'foo-bar@test.tld',
-            '__DEFAULT_FROM_EMAIL__': 'django_app@test.tld',
         },
     )
 

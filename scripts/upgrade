@@ -58,7 +58,7 @@ fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=40
+ynh_script_progression --message="Backing up $app before upgrading (may take a while)..." --weight=40
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -74,7 +74,7 @@ ynh_abort_if_errors
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping systemd services..." --weight=5
+ynh_script_progression --message="Stopping systemd service '$app'..." --weight=5
 
 ynh_systemd_action --service_name="$app" --action="stop"
 
@@ -108,7 +108,7 @@ ynh_system_user_create --username="$app" --home_dir="$final_path" --use_shell
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_script_progression --message="Configuring a systemd service..."
+ynh_script_progression --message="Configuring systemd service '$app'..." --weight=5
 
 ynh_add_systemd_config --service="$app" --template="systemd.service"
 
@@ -189,7 +189,7 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="Web based management to catalog things" --log="${log_file}"
+yunohost service add $app --log="${log_file}"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -209,7 +209,7 @@ chmod o-rwx "$final_path"
 #=================================================
 # Start the app server via systemd
 #=================================================
-ynh_script_progression --message="Starting the application..." --weight=5
+ynh_script_progression --message="Starting systemd service '$app'..." --weight=5
 
 ynh_systemd_action --service_name="$app" --action="start"
 

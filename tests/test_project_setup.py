@@ -1,5 +1,4 @@
 import difflib
-import json
 import os
 import shutil
 import subprocess
@@ -8,6 +7,7 @@ from pathlib import Path
 import tomli
 from bx_django_utils.filename import clean_filename
 from bx_py_utils.path import assert_is_dir, assert_is_file
+from django_yunohost_integration.test_utils import assert_project_version
 
 import djfritz
 
@@ -15,29 +15,35 @@ import djfritz
 PACKAGE_ROOT = Path(__file__).parent.parent
 
 
-def assert_is_ynh_version(version: str, package_version: str):
-    assert '~ynh' in version
-    assert version[0].isdigit()
-    assert version.startswith(package_version)
-    assert version[-1].isdigit()
+def assert_file_contains_string(file_path, string):
+    with file_path.open('r') as f:
+        for line in f:
+            if string in line:
+                return
+    raise AssertionError(f'File {file_path} does not contain {string!r} !')
 
 
 def test_version():
-    package_version = djfritz.__version__
-    assert package_version[0].isdigit()
-    assert '~ynh' not in package_version
+    upstream_version = djfritz.__version__
 
-    pyproject_toml_path = Path(PACKAGE_ROOT, 'pyproject.toml')
-    assert_is_file(pyproject_toml_path)
-    pyproject_toml = tomli.loads(pyproject_toml_path.read_text(encoding='UTF-8'))
-    assert_is_ynh_version(
-        version=pyproject_toml['tool']['poetry']['version'], package_version=package_version
+    assert_project_version(
+        current_version=upstream_version,
+        github_project_url='https://github.com/jedie/django-fritzconnection',
     )
 
-    manifest_json_path = Path(PACKAGE_ROOT, 'manifest.json')
-    assert_is_file(manifest_json_path)
-    manifest = json.loads(manifest_json_path.read_text(encoding='utf-8'))
-    assert_is_ynh_version(version=manifest['version'], package_version=package_version)
+    pyproject_toml_path = Path(PACKAGE_ROOT, 'pyproject.toml')
+    pyproject_toml = tomli.loads(pyproject_toml_path.read_text(encoding='UTF-8'))
+    pyproject_version = pyproject_toml['tool']['poetry']['version']
+    assert pyproject_version.startswith(f'{upstream_version}+ynh')
+
+    # pyproject.toml needs a PEP 440 conform version and used "+ynh"
+    # the YunoHost syntax is: "~ynh", just "convert this:
+    manifest_version = pyproject_version.replace('+', '~')
+
+    assert_file_contains_string(
+        file_path=Path(PACKAGE_ROOT, 'manifest.json'),
+        string=f'"version": "{manifest_version}"',
+    )
 
 
 def poetry_check_output(*args):
@@ -89,6 +95,8 @@ def test_screenshot_filenames():
     renamed = []
     for file_path in screenshot_path.iterdir():
         file_name = file_path.name
+        if file_name.startswith('.'):
+            continue
         cleaned_name = clean_filename(file_name)
         if cleaned_name != file_name:
             new_path = file_path.with_name(cleaned_name)

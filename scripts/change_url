@@ -6,6 +6,9 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
+YNH_APP_ARG_DOMAIN=$YNH_APP_NEW_DOMAIN
+YNH_APP_ARG_PATH=$YNH_APP_NEW_PATH
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -83,7 +86,7 @@ fi
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping systemd services..."
+ynh_script_progression --message="Stopping systemd service '$app'..."
 
 ynh_systemd_action --service_name="$app" --action="stop"
 
@@ -123,7 +126,10 @@ fi
 #=================================================
 # MODIFY SETTINGS
 #=================================================
-ynh_script_progression --message="Modify django-fmd's config file..."
+ynh_script_progression --message="Modify $app config file..."
+
+domain=$YNH_APP_NEW_DOMAIN
+path_url=$YNH_APP_NEW_PATH
 
 ynh_add_config --template="settings.py" --destination="$final_path/settings.py"
 
@@ -132,7 +138,7 @@ ynh_add_config --template="settings.py" --destination="$final_path/settings.py"
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting systemd services..." --weight=5
+ynh_script_progression --message="Starting systemd service '$app'..." --weight=5
 
 ynh_systemd_action --service_name="$app" --action="start"
 

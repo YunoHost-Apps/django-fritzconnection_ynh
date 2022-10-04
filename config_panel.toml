@@ -3,7 +3,8 @@
 version = "1.0"
 
 [main]
-name = "django_example_ynh configuration"
+name.en = "Main configuration"
+name.fr = "Configuration principale"
 services = ["__APP__"]
 
     [main.config]
@@ -11,13 +12,13 @@ services = ["__APP__"]
 
         [main.config.default_from_email]
         ask = "from email"
-        type = "string"
+        type = "email"
         help = "Default email address to use for various automated emails."
         bind = "default_from_email:__FINALPATH__/settings.py"
 
         [main.config.admin_email]
         ask = "ADMIN email"
-        type = "string"
+        type = "email"
         help = "EMail address for error emails."
         bind = "admin_email:__FINALPATH__/settings.py"
 

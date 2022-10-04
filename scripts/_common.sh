@@ -8,10 +8,8 @@ domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 
 admin=$YNH_APP_ARG_ADMIN
-app=$YNH_APP_INSTANCE_NAME
-
-# Currently not used: django-fritzconnection has no public pages, yet!
 is_public=$YNH_APP_ARG_IS_PUBLIC
+app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
 # ARGUMENTS FROM CONFIG PANEL
@@ -43,7 +41,7 @@ log_file="${log_path}/${app}.log"
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="build-essential python3-dev python3-pip python3-venv git libpq-dev postgresql postgresql-contrib libjpeg-dev"
+pkg_dependencies="build-essential python3-dev python3-pip python3-venv git libpq-dev postgresql postgresql-contrib"
 
 #=================================================
 # Redis HELPERS
@@ -86,3 +84,4 @@ ynh_redis_remove_db() {
 	local db=$1
 	redis-cli -n "$db" flushall
 }
+
