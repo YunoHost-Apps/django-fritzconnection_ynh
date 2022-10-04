@@ -31,7 +31,7 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Version incluse :** 0.2.0~ynh2 *(:warning: Il s'agit de la branche `dev`. La [branche `master`](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/master) utilisée dans le catalogue est actuellement en 0.2.0\~ynh1.)*
+**Version incluse :** 0.2.0~ynh2 *(:warning: Il s'agit de la branche `testing`. La [branche `master`](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/master) utilisée dans le catalogue est actuellement en 0.2.0\~ynh1.)*
 
 
 ## Captures d'écran
