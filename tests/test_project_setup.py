@@ -4,8 +4,10 @@ import shutil
 import subprocess
 from pathlib import Path
 
+import tomli
 from bx_django_utils.filename import clean_filename
 from bx_py_utils.path import assert_is_dir, assert_is_file
+from django_yunohost_integration.test_utils import assert_project_version
 
 import djfritz
 
@@ -22,13 +24,25 @@ def assert_file_contains_string(file_path, string):
 
 
 def test_version():
-    version = djfritz.__version__
+    upstream_version = djfritz.__version__
+
+    assert_project_version(
+        current_version=upstream_version,
+        github_project_url='https://github.com/jedie/django-fritzconnection',
+    )
+
+    pyproject_toml_path = Path(PACKAGE_ROOT, 'pyproject.toml')
+    pyproject_toml = tomli.loads(pyproject_toml_path.read_text(encoding='UTF-8'))
+    pyproject_version = pyproject_toml['tool']['poetry']['version']
+    assert pyproject_version.startswith(f'{upstream_version}+ynh')
+
+    # pyproject.toml needs a PEP 440 conform version and used "+ynh"
+    # the YunoHost syntax is: "~ynh", just "convert this:
+    manifest_version = pyproject_version.replace('+', '~')
 
     assert_file_contains_string(
-        file_path=Path(PACKAGE_ROOT, 'pyproject.toml'), string=f'version = "{version}~ynh'
-    )
-    assert_file_contains_string(
-        file_path=Path(PACKAGE_ROOT, 'manifest.json'), string=f'"version": "{version}~ynh'
+        file_path=Path(PACKAGE_ROOT, 'manifest.json'),
+        string=f'"version": "{manifest_version}"',
     )
 
 
@@ -37,7 +51,7 @@ def poetry_check_output(*args):
 
     output = subprocess.check_output(
         (poerty_bin,) + args,
-        universal_newlines=True,
+        text=True,
         env=os.environ,
         stderr=subprocess.STDOUT,
         cwd=str(PACKAGE_ROOT),
@@ -52,7 +66,7 @@ def test_poetry_check():
 
 
 def test_requirements_txt():
-    requirements_txt = Path('conf', 'requirements.txt')
+    requirements_txt = PACKAGE_ROOT / 'conf' / 'requirements.txt'
     assert_is_file(requirements_txt)
 
     output = poetry_check_output('export', '-f', 'requirements.txt')
@@ -81,6 +95,8 @@ def test_screenshot_filenames():
     renamed = []
     for file_path in screenshot_path.iterdir():
         file_name = file_path.name
+        if file_name.startswith('.'):
+            continue
         cleaned_name = clean_filename(file_name)
         if cleaned_name != file_name:
             new_path = file_path.with_name(cleaned_name)
