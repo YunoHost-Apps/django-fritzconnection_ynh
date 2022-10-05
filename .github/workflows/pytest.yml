@@ -27,6 +27,11 @@ jobs:
       with:
         python-version: '${{ matrix.python-version }}'
 
+    - uses: actions/cache@v2
+      with:
+        path: ~/.cache/
+        key: dot-cache-files
+
     - name: 'Install package'
       run: |
         pip3 install poetry
@@ -40,5 +45,12 @@ jobs:
       run: |
         make pytest
 
+    - name: 'Run Safety check'
+      run: |
+        make safety
+
     - name: 'Upload coverage report'
-      run: bash <(curl -s https://codecov.io/bash)
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: false
+        verbose: true
