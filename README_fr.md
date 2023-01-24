@@ -35,9 +35,8 @@ This package for YunoHost used [django-yunohost-integration](https://github.com/
 
 ## Captures d’écran
 
-![Capture d’écran de django-fritzconnection](./doc/screenshots/v002_hosts_change_list.png)
+![Capture d’écran de django-fritzconnection](./doc/screenshots/screenshot.png)
 ![Capture d’écran de django-fritzconnection](./doc/screenshots/gitkeep)
-![Capture d’écran de django-fritzconnection](./doc/screenshots/v010rc1_group_management.png)
 
 ## Avertissements / informations importantes
 
