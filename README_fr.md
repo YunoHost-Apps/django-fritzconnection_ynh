@@ -5,15 +5,16 @@ It shall NOT be edited by hand.
 
 # django-fritzconnection pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+
 [![Installer django-fritzconnection avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer django-fritzconnection rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer django-fritzconnection rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 
@@ -31,14 +32,11 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Version incluse :** 0.2.0~ynh2
+**Version incluse :** 0.2.0~ynh2
 
+## Captures d’écran
 
-## Captures d'écran
-
-![Capture d'écran de django-fritzconnection](./doc/screenshots/v002_hosts_change_list.png)
-![Capture d'écran de django-fritzconnection](./doc/screenshots/gitkeep)
-![Capture d'écran de django-fritzconnection](./doc/screenshots/v010rc1_group_management.png)
+![Capture d’écran de django-fritzconnection](./doc/screenshots/screenshot.png)
 
 ## Avertissements / informations importantes
 
@@ -173,9 +171,7 @@ Notes:
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://github.com/jedie/django-fritzconnection>
-* Dépôt de code officiel de l'app : <https://github.com/jedie/django-fritzconnection>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_django-fritzconnection>
+* Dépôt de code officiel de l’app : <https://github.com/jedie/django-fritzconnection>
 * Signaler un bug : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
 ## Informations pour les développeurs
@@ -190,4 +186,4 @@ ou
 sudo yunohost app upgrade django-fritzconnection -u https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>

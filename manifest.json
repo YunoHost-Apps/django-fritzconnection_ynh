@@ -9,7 +9,6 @@
 	"url": "https://github.com/YunoHost-Apps/django-fritzconnection_ynh",
     "upstream": {
         "license": "GPL-3.0",
-        "website": "https://github.com/jedie/django-fritzconnection",
         "code": "https://github.com/jedie/django-fritzconnection"
     },
 	"license": "GPL-3.0",
