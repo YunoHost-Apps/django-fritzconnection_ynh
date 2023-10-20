@@ -6,6 +6,7 @@ It shall NOT be edited by hand.
 # django-fritzconnection for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Working status](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+
 [![Install django-fritzconnection with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -171,9 +172,7 @@ Notes:
 
 ## Documentation and resources
 
-* Official app website: <https://github.com/jedie/django-fritzconnection>
 * Upstream app code repository: <https://github.com/jedie/django-fritzconnection>
-* YunoHost documentation for this app: <https://yunohost.org/app_django-fritzconnection>
 * Report a bug: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
 ## Developer info
