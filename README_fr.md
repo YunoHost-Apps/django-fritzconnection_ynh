@@ -172,6 +172,7 @@ Notes:
 ## Documentations et ressources
 
 * Dépôt de code officiel de l’app : <https://github.com/jedie/django-fritzconnection>
+* YunoHost Store: <https://apps.yunohost.org/app/django-fritzconnection>
 * Signaler un bug : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
 ## Informations pour les développeurs

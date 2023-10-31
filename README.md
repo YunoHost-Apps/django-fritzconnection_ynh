@@ -172,6 +172,7 @@ Notes:
 ## Documentation and resources
 
 * Upstream app code repository: <https://github.com/jedie/django-fritzconnection>
+* YunoHost Store: <https://apps.yunohost.org/app/django-fritzconnection>
 * Report a bug: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
 ## Developer info
