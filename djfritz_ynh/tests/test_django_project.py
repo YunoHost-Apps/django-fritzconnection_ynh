@@ -1,13 +1,17 @@
+from unittest.mock import patch
+
 from axes.models import AccessLog
-from bx_django_utils.test_utils.html_assertion import HtmlAssertionMixin
-from django.conf import settings
+from bx_django_utils.test_utils.html_assertion import HtmlAssertionMixin, assert_html_response_snapshot
+from django.conf import LazySettings, settings
 from django.contrib.auth.models import User
+from django.template.defaulttags import CsrfTokenNode
 from django.test import override_settings
 from django.test.testcases import TestCase
 from django.urls.base import reverse
 from django_yunohost_integration.test_utils import generate_basic_auth
+from djfritz_project.tests.utilities import NoFritzBoxConnection
 
-import djfritz
+from djfritz import __version__ as upstream_version
 
 
 @override_settings(DEBUG=False)
@@ -19,11 +23,14 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         self.client = self.client_class()
 
     def test_settings(self):
+        assert isinstance(settings, LazySettings)
+        assert settings.configured is True
+
         assert settings.PATH_URL == 'app_path'
 
-        assert str(settings.FINALPATH).endswith('/local_test/opt_yunohost')
-        assert str(settings.PUBLIC_PATH).endswith('/local_test/var_www')
-        assert str(settings.LOG_FILE).endswith('/local_test/var_log_django-fritzconnection.log')
+        assert str(settings.DATA_DIR_PATH).endswith('/local_test/opt_yunohost')
+        assert str(settings.INSTALL_DIR_PATH).endswith('/local_test/var_www')
+        assert str(settings.LOG_FILE_PATH).endswith('/local_test/var_log_django-fritzconnection.log')
 
         assert settings.ROOT_URLCONF == 'urls'
 
@@ -36,7 +43,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
 
     def test_auth(self):
         assert settings.PATH_URL == 'app_path'
-        assert reverse('admin:index') == '/app_path/admin/'
+        self.assertEqual(reverse('admin:index'), '/app_path/admin/')
 
         # SecurityMiddleware should redirects all non-HTTPS requests to HTTPS:
         assert settings.SECURE_SSL_REDIRECT is True
@@ -56,18 +63,18 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         )
 
     def test_create_unknown_user(self):
-        assert reverse('admin:index') == '/app_path/admin/'
         assert User.objects.count() == 0
 
         self.client.cookies['SSOwAuthUser'] = 'test'
 
-        response = self.client.get(
-            path='/app_path/admin/',
-            HTTP_REMOTE_USER='test',
-            HTTP_AUTH_USER='test',
-            HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',
-            secure=True,
-        )
+        with patch.object(CsrfTokenNode, 'render', return_value='MockedCsrfTokenNode'), NoFritzBoxConnection():
+            response = self.client.get(
+                path='/app_path/admin/',
+                HTTP_REMOTE_USER='test',
+                HTTP_AUTH_USER='test',
+                HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',
+                secure=True,
+            )
 
         assert User.objects.count() == 1
         user = User.objects.first()
@@ -79,13 +86,11 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         self.assert_html_parts(
             response,
             parts=(
-                (
-                    '<title>Site administration | django-fritzconnection'
-                    f' v{djfritz.__version__}</title>'
-                ),
+                f'<h1 id="site-name"><a href="/app_path/admin/">django-fritzconnection v{upstream_version}</a></h1>',
                 '<strong>test</strong>',
             ),
         )
+        assert_html_response_snapshot(response, query_selector='#container', validate=False)
 
     def test_wrong_auth_user(self):
         assert User.objects.count() == 0
@@ -94,7 +99,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         self.client.cookies['SSOwAuthUser'] = 'test'
 
         response = self.client.get(
-            path='/app_path/',
+            path='/app_path/admin/',
             HTTP_REMOTE_USER='test',
             HTTP_AUTH_USER='foobar',  # <<< wrong user name
             HTTP_AUTHORIZATION='basic dGVzdDp0ZXN0MTIz',

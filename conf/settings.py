@@ -2,66 +2,82 @@
 ################################################################################
 
 # Please do not modify this file, it will be reset at the next update.
-# You can edit the file __FINALPATH__/local_settings.py and add/modify the settings you need.
+# You can edit the file __DATA_DIR__/local_settings.py and add/modify the settings you need.
 # The parameters you add in local_settings.py will overwrite these,
 # but you can use the options and documentation in this file to find out what can be done.
 
 ################################################################################
 ################################################################################
 
+import os
 from pathlib import Path as __Path
 
 from django_yunohost_integration.base_settings import *  # noqa:F401,F403
 from django_yunohost_integration.secret_key import get_or_create_secret as __get_or_create_secret
 
-from djfritz_project.settings.base import *  # noqa:F401,F403
+
+# https://github.com/jedie/django-fritzconnection
+from djfritz_project.settings.prod import *  # noqa:F401,F403 isort:skip
 
 
 from django_yunohost_integration.base_settings import LOGGING  # noqa:F401 isort:skip
 
 
-FINALPATH = __Path('__FINALPATH__')  # /opt/yunohost/$app
-assert FINALPATH.is_dir(), f'Directory not exists: {FINALPATH}'
+DATA_DIR_PATH = __Path('__DATA_DIR__')  # /home/yunohost.app/$app/
+assert DATA_DIR_PATH.is_dir(), f'Directory not exists: {DATA_DIR_PATH}'
 
-PUBLIC_PATH = __Path('__PUBLIC_PATH__')  # /var/www/$app
-assert PUBLIC_PATH.is_dir(), f'Directory not exists: {PUBLIC_PATH}'
+INSTALL_DIR_PATH = __Path('__INSTALL_DIR__')  # /var/www/$app/
+assert INSTALL_DIR_PATH.is_dir(), f'Directory not exists: {INSTALL_DIR_PATH}'
 
-LOG_FILE = __Path('__LOG_FILE__')  # /var/log/$app/django_example_ynh.log
-assert LOG_FILE.is_file(), f'File not exists: {LOG_FILE}'
+LOG_FILE_PATH = __Path('__LOG_FILE__')  # /var/log/$app/djfritz_ynh.log
+assert LOG_FILE_PATH.is_file(), f'File not exists: {LOG_FILE_PATH}'
 
-PATH_URL = '__PATH_URL__'  # $YNH_APP_ARG_PATH
+PATH_URL = '__PATH__'
 PATH_URL = PATH_URL.strip('/')
+
+YNH_CURRENT_HOST = '__YNH_CURRENT_HOST__'  # YunoHost main domain from: /etc/yunohost/current_host
 
 # -----------------------------------------------------------------------------
 # config_panel.toml settings:
 
 DEBUG_ENABLED = '__DEBUG_ENABLED__'
-DEBUG = bool(int(DEBUG_ENABLED))
+DEBUG = DEBUG_ENABLED == '1'
 
 LOG_LEVEL = '__LOG_LEVEL__'
 ADMIN_EMAIL = '__ADMIN_EMAIL__'
 DEFAULT_FROM_EMAIL = '__DEFAULT_FROM_EMAIL__'
 
+# https://fritzconnection.readthedocs.io/en/latest/sources/getting_started.html#username-and-password
+FRITZ_USERNAME = '__FRITZ_USERNAME__'
+os.environ.setdefault('FRITZ_USERNAME', FRITZ_USERNAME)
+FRITZ_PASSWORD = '__FRITZ_PASSWORD__'
+os.environ.setdefault('FRITZ_PASSWORD', FRITZ_PASSWORD)
 
 # -----------------------------------------------------------------------------
 
 # Function that will be called to finalize a user profile:
 YNH_SETUP_USER = 'setup_user.setup_project_user'
 
-SECRET_KEY = __get_or_create_secret(FINALPATH / 'secret.txt')  # /opt/yunohost/$app/secret.txt
 
-INSTALLED_APPS += [
-    'axes',  # https://github.com/jazzband/django-axes
-    'django_yunohost_integration',  # https://github.com/YunoHost-Apps/django_yunohost_integration
-]
+if 'axes' not in INSTALLED_APPS:
+    INSTALLED_APPS.append('axes')  # https://github.com/jazzband/django-axes
+
+INSTALLED_APPS.append('django_yunohost_integration.apps.YunohostIntegrationConfig')
+
+
+SECRET_KEY = __get_or_create_secret(
+    DATA_DIR_PATH / 'secret.txt'
+)  # /home/yunohost.app/$app/secret.txt
+
 
 MIDDLEWARE.insert(
     MIDDLEWARE.index('django.contrib.auth.middleware.AuthenticationMiddleware') + 1,
     # login a user via HTTP_REMOTE_USER header from SSOwat:
     'django_yunohost_integration.sso_auth.auth_middleware.SSOwatRemoteUserMiddleware',
 )
-# AxesMiddleware should be the last middleware:
-MIDDLEWARE.append('axes.middleware.AxesMiddleware')
+if 'axes.middleware.AxesMiddleware' not in MIDDLEWARE:
+    # AxesMiddleware should be the last middleware:
+    MIDDLEWARE.append('axes.middleware.AxesMiddleware')
 
 
 # Keep ModelBackend around for per-user permissions and superuser
@@ -126,6 +142,9 @@ CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/__REDIS_DB__',
+        # If redis is running on same host as Django FritzConnection, you might
+        # want to use unix sockets instead:
+        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
@@ -144,21 +163,22 @@ else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
 
-STATIC_ROOT = str(PUBLIC_PATH / 'static')
-MEDIA_ROOT = str(PUBLIC_PATH / 'media')
+STATIC_ROOT = str(INSTALL_DIR_PATH / 'static')
+MEDIA_ROOT = str(INSTALL_DIR_PATH / 'media')
 
 
 # -----------------------------------------------------------------------------
 
 # Set log file to e.g.: /var/log/$app/$app.log
-LOGGING['handlers']['log_file']['filename'] = str(LOG_FILE)
+LOGGING['handlers']['log_file']['filename'] = str(LOG_FILE_PATH)
 
 # Example how to add logging to own app:
-LOGGING['loggers']['djfritz'] = {
+LOGGING['loggers']['djfritz_project'] = {
     'handlers': ['syslog', 'log_file', 'mail_admins'],
-    'level': 'INFO',
     'propagate': False,
 }
+for __logger_name in LOGGING['loggers'].keys():
+    LOGGING['loggers'][__logger_name]['level'] = 'DEBUG' if DEBUG else LOG_LEVEL
 
 # -----------------------------------------------------------------------------
 
