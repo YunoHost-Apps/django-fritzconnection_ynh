@@ -1,4 +1,4 @@
-#!__FINALPATH__/venv/bin/python
+#!__INSTALL_DIR__/venv/bin/python
 
 import os
 import sys
