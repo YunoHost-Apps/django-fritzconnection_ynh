@@ -38,10 +38,20 @@ if [ -z "${default_from_email:-}" ]; then
     ynh_app_setting_set --app="$app" --key=default_from_email --value="$default_from_email"
 fi
 
+if [ -d "/opt/yunohost/$app" ]; then
+    if [ -d "$install_dir/app" ]; then
+        ynh_secure_remove --file="/opt/yunohost/$app"
+    else
+        mv "/opt/yunohost/$app" "$install_dir/app"
+    fi
+fi
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Upgrading source files..." --weight=1
+
+mkdir -p "$install_dir/"{app,public/media,public/static}
 
 ynh_add_config --template="requirements.txt" --destination="$install_dir/app/requirements.txt"
 
@@ -56,6 +66,12 @@ ynh_add_config --template="urls.py" --destination="$install_dir/app/urls.py"
 ynh_add_config --template="wsgi.py" --destination="$install_dir/app/wsgi.py"
 
 chown -R "$app:www-data" "$install_dir"
+
+chown -R "$app:www-data" "$install_dir"
+
+mkdir -p "/var/log/$app"
+touch "/var/log/$app/$app.log"
+chown -R "$app:$app" "/var/log/$app"
 
 #=================================================
 # PYTHON VIRTUALENV

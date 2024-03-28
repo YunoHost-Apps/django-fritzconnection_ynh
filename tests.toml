@@ -7,3 +7,5 @@ test_format = 1.0
     # ------------
     # Tests to run
     # ------------
+
+    test_upgrade_from.4b0799f31dfbde3884f88aed8ebb5a42c4dc4a69.name = "Packaging v1"
