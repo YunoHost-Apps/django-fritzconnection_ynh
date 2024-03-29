@@ -8,11 +8,11 @@ from django.conf import settings
 from django.urls import include, path
 
 
-if settings.PATH_URL:
-    # settings.PATH_URL is the $YNH_APP_ARG_PATH
-    # Prefix all urls with "PATH_URL":
+if settings.PATH:
+    # settings.PATH is the $YNH_APP_ARG_PATH
+    # Prefix all urls with "PATH":
     urlpatterns = [
-        path(f'{settings.PATH_URL}/', include('djfritz_project.urls')),
+        path(f'{settings.PATH}/', include('djfritz_project.urls')),
     ]
 else:
     # Installed to domain root, without a path prefix
