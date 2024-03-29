@@ -1,20 +1,20 @@
 <!--
-Nota bene : ce README est automatiquement généré par <https://github.com/YunoHost/apps/tree/master/tools/readme_generator>
-Il NE doit PAS être modifié à la main.
+N.B.: Questo README è stato automaticamente generato da <https://github.com/YunoHost/apps/tree/master/tools/readme_generator>
+NON DEVE essere modificato manualmente.
 -->
 
-# django-fritzconnection pour YunoHost
+# django-fritzconnection per YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Livello di integrazione](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Stato di funzionamento](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Stato di manutenzione](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
 
-[![Installer django-fritzconnection avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
+[![Installa django-fritzconnection con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
-*[Lire le README dans d'autres langues.](./ALL_README.md)*
+*[Leggi questo README in altre lingue.](./ALL_README.md)*
 
-> *Ce package vous permet d’installer django-fritzconnection rapidement et simplement sur un serveur YunoHost.*  
-> *Si vous n’avez pas YunoHost, consultez [ce guide](https://yunohost.org/install) pour savoir comment l’installer et en profiter.*
+> *Questo pacchetto ti permette di installare django-fritzconnection su un server YunoHost in modo semplice e veloce.*  
+> *Se non hai YunoHost, consulta [la guida](https://yunohost.org/install) per imparare a installarlo.*
 
-## Vue d’ensemble
+## Panoramica
 
 Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 
@@ -32,13 +32,13 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Version incluse :** 0.2.0~ynh2
+**Versione pubblicata:** 0.2.0~ynh2
 
-## Captures d’écran
+## Screenshot
 
-![Capture d’écran de django-fritzconnection](./doc/screenshots/screenshot.png)
+![Screenshot di django-fritzconnection](./doc/screenshots/screenshot.png)
 
-## Avertissements / informations importantes
+## Attenzione/informazioni importanti
 
 ## Settings and upgrades
 
@@ -169,22 +169,22 @@ Notes:
 * A super user with username `test` and password `test` is created
 * The page is available under `http://127.0.0.1:8000/app_path/`
 
-## Documentations et ressources
+## Documentazione e risorse
 
-- Dépôt de code officiel de l’app : <https://github.com/jedie/django-fritzconnection>
-- YunoHost Store : <https://apps.yunohost.org/app/django-fritzconnection>
-- Signaler un bug : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
+- Repository upstream del codice dell’app: <https://github.com/jedie/django-fritzconnection>
+- Store di YunoHost: <https://apps.yunohost.org/app/django-fritzconnection>
+- Segnala un problema: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
-## Informations pour les développeurs
+## Informazioni per sviluppatori
 
-Merci de faire vos pull request sur la [branche `testing`](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/testing).
+Si prega di inviare la tua pull request alla [branch di `testing`](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/testing).
 
-Pour essayer la branche `testing`, procédez comme suit :
+Per provare la branch di `testing`, si prega di procedere in questo modo:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/testing --debug
-ou
+o
 sudo yunohost app upgrade django-fritzconnection -u https://github.com/YunoHost-Apps/django-fritzconnection_ynh/tree/testing --debug
 ```
 
-**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
+**Maggiori informazioni riguardo il pacchetto di quest’app:** <https://yunohost.org/packaging_apps>
