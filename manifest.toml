@@ -15,7 +15,7 @@ license = "GPL-3.0"
 code = "https://github.com/jedie/django-fritzconnection"
 
 [integration]
-yunohost = ">= 11.2"
+yunohost = ">= 11.2.12"
 architectures = "all"
 multi_instance = true
 ldap = true
