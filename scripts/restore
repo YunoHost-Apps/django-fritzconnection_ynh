@@ -1,4 +1,4 @@
-#!/bin/bash
+j#!/bin/bash
 
 #=================================================
 # IMPORT GENERIC HELPERS
@@ -33,7 +33,7 @@ ynh_script_progression --message="Updating Python virtualenv and rebuilding $app
 # Always recreate everything fresh with current python version
 ynh_secure_remove "$install_dir/venv"
 _venv_install
-
+chown -R "$app:www-data" "$install_dir"
 _build_app
 
 #=================================================
