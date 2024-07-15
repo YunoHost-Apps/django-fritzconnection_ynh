@@ -5,7 +5,7 @@
 
 # YunoHost 上的 django-fritzconnection
 
-[![集成程度](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![工作状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
 
 [![使用 YunoHost 安装 django-fritzconnection](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 

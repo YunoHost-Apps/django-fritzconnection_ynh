@@ -5,7 +5,7 @@ Il NE doit PAS être modifié à la main.
 
 # django-fritzconnection pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Niveau d’intégration](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
 
 [![Installer django-fritzconnection avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 

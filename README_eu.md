@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # django-fritzconnection YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://dash.yunohost.org/appci/app/django-fritzconnection) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
 
 [![Instalatu django-fritzconnection YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
