@@ -7,99 +7,147 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
-#=================================================
-# INITIALIZE AND STORE SETTINGS
-#=================================================
+# Install parameters are automatically saved as settings
+#
+# Settings are automatically loaded as bash variables
+# in every app script context, therefore typically these will exist:
+# - $domain
+# - $path
+# - $language
+# ... etc
+#
+# Resources defined in the manifest are provisioned prior to this script
+# and corresponding settings are also available, such as:
+# - $install_dir
+# - $port
+# - $db_name
+# ...
 
-admin_email="$(ynh_user_get_info "$admin" mail)"
-ynh_app_setting_set --app="$app" --key=admin_email --value="$admin_email"
+#
+# $app is the app id (i.e. 'example' for first install,
+# or 'example__2', '__3', ... for multi-instance installs)
+#
 
+#=================================================
+# SETTINGS
+#=================================================
+ynh_script_progression --message="Storing installation settings..."
+
+# Logging:
+log_file="/var/log/$app/$app.log"
+ynh_app_setting_set --app=$app --key=log_file --value="$log_file"
+
+# Redis:
 redis_db=$(ynh_redis_get_free_db)
-ynh_app_setting_set --app="$app" --key=redis_db --value="$redis_db"
+ynh_app_setting_set --app=$app --key=redis_db --value="$redis_db"
 
-#-------------------------------------------------
-# config_panel.toml settings:
-
-debug_enabled="0"
-ynh_app_setting_set --app="$app" --key=debug_enabled --value="$debug_enabled"
-log_level="WARNING"
-ynh_app_setting_set --app="$app" --key=log_level --value="$log_level"
-default_from_email="${app}@${domain}"
-ynh_app_setting_set --app="$app" --key=default_from_email --value="$default_from_email"
+# App settings:
+ynh_app_setting_set --app=$app --key=default_from_email --value="$default_from_email"
+ynh_app_setting_set --app=$app --key=admin_email --value="$admin_email"
+ynh_app_setting_set --app=$app --key=debug_enabled --value="$debug_enabled"
+ynh_app_setting_set --app=$app --key=log_level --value="$log_level"
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression --message="Validating installation parameters..."
 
-mkdir -p "$install_dir/"{app,public/media,public/static}
+mkdir -p "$install_dir/media" "$install_dir/static"
 
-ynh_add_config --template="requirements.txt" --destination="$install_dir/app/requirements.txt"
+#=================================================
+# SETUP LOG FILE
+#=================================================
+ynh_script_progression --message="Setup logging..."
 
-ynh_add_config --template="gunicorn.conf.py" --destination="$install_dir/app/gunicorn.conf.py"
+myynh_setup_log_file
 
-ynh_add_config --template="manage.py" --destination="$install_dir/app/manage.py"
-chmod +x "$install_dir/app/manage.py"
-
-ynh_add_config --template="settings.py" --destination="$install_dir/app/settings.py"
-ynh_add_config --template="setup_user.py" --destination="$install_dir/app/setup_user.py"
-ynh_add_config --template="urls.py" --destination="$install_dir/app/urls.py"
-ynh_add_config --template="wsgi.py" --destination="$install_dir/app/wsgi.py"
-
-touch "$install_dir/app/local_settings.py"
-
-chown -R "$app:www-data" "$install_dir"
-
-mkdir -p "/var/log/$app"
-touch "/var/log/$app/$app.log"
-chown -R "$app:$app" "/var/log/$app"
+# Use logrotate to manage application logfile(s)
+ynh_use_logrotate --logfile="$log_file" --specific_user=$app
 
 #=================================================
 # PYTHON VIRTUALENV
 #=================================================
-ynh_script_progression --message="Installing $app..." --weight=10
-
-_venv_install
-
-_build_app
-
-pushd "$install_dir/app"
-    # Just for debugging:
-    ynh_exec_as "$app" "$venvpy" ./manage.py diffsettings
-
-    ynh_exec_as "$app" "$venvpy" ./manage.py migrate --no-input
-    ynh_exec_as "$app" "$venvpy" ./manage.py collectstatic --no-input
-
-    # Create/update Django superuser (set unusable password, because auth done via SSOwat):
-    ynh_exec_as "$app" "$venvpy" ./manage.py create_superuser --username="$admin" --email="$(ynh_user_get_info "$admin" mail)"
-
-    # Check the configuration
-    # This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
-    ynh_exec_as "$app" "$venvpy" ./manage.py check --deploy || true
-popd
+ynh_script_progression --message="Create and setup Python virtualenv..." --weight=45
+cp ../conf/requirements.txt "$data_dir/requirements.txt"
+myynh_setup_python_venv
 
 #=================================================
-# SYSTEM CONFIGURATION
+# copy config files
+# ================================================
+ynh_script_progression --message="Create $app configuration files..."
+
+ynh_add_config --template="gunicorn.conf.py" --destination="$data_dir/gunicorn.conf.py"
+
+ynh_add_config --template="manage.py" --destination="$data_dir/manage.py"
+chmod -c +x "$data_dir/manage.py"
+
+ynh_add_config --template="settings.py" --destination="$data_dir/settings.py"
+ynh_add_config --template="setup_user.py" --destination="$data_dir/setup_user.py"
+ynh_add_config --template="urls.py" --destination="$data_dir/urls.py"
+ynh_add_config --template="wsgi.py" --destination="$data_dir/wsgi.py"
+
+touch "$data_dir/local_settings.py"
+
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+# MIGRATE / COLLECTSTATIC / CREATEADMIN
+#=================================================
+ynh_script_progression --message="migrate/collectstatic/createadmin..." --weight=10
 
-# Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
+cd "$data_dir" || exit
 
-# Create a dedicated systemd config
-ynh_add_systemd_config
-yunohost service add "$app" --description="Django-fritzconnection server" --log="/var/log/$app/$app.log"
+# Just for debugging:
+./manage.py diffsettings
 
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate "$log_file"
+./manage.py migrate --no-input
+./manage.py collectstatic --no-input
+
+# Create/update Django superuser (set unusable password, because auth done via SSOwat):
+./manage.py create_superuser --username="$admin" --email="$(ynh_user_get_info "$admin" mail)"
+
+# Check the configuration
+# This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
+./manage.py check --deploy || true
 
 #=================================================
-# START SYSTEMD SERVICE
+# INTEGRATE SERVICE IN YUNOHOST
 #=================================================
-ynh_script_progression --message="Starting $app's systemd service..." --weight=1
+ynh_script_progression --message="Integrating service in YunoHost..."
 
-# Start a systemd service
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
+yunohost service add --description $app $app
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Set file permissions..."
+myynh_fix_file_permissions
+
+#=================================================
+# SETUP SYSTEMD
+#=================================================
+ynh_script_progression --message="Configuring systemd service '$app'..." --weight=5
+
+# https://yunohost.org/en/packaging_apps_helpers#ynh-add-systemd-config
+# https://github.com/YunoHost/yunohost/blob/dev/helpers/systemd
+ynh_add_systemd_config --service=$app --template="systemd.service"
+
+#=================================================
+# Start the app server via systemd
+#=================================================
+ynh_script_progression --message="Starting systemd service '$app'..." --weight=5
+
+ynh_systemd_action --service_name=$app --action="start" --log_path="$log_file"
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Configuring nginx web server..."
+
+# Create a dedicated nginx config
+# https://yunohost.org/en/contribute/packaging_apps/helpers
+# https://github.com/YunoHost/yunohost/blob/dev/helpers/nginx
+ynh_add_nginx_config "public_path" "port"
 
 #=================================================
 # END OF SCRIPT

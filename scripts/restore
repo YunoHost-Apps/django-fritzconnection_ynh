@@ -1,5 +1,7 @@
-j#!/bin/bash
+#!/bin/bash
 
+#=================================================
+# GENERIC START
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
@@ -8,61 +10,86 @@ source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# RESTORE THE APP MAIN DIR
+# STANDARD RESTORATION STEPS
 #=================================================
-ynh_script_progression --message="Restoring the app main directory..."
-
-ynh_restore_file --origin_path="$install_dir"
-
-chmod -R o-rwx "$install_dir"
-chown -R "$app:www-data" "$install_dir"
-
+# RESTORE THE NGINX CONFIGURATION
 #=================================================
-# RESTORE THE POSTGRESQL DATABASE
-#=================================================
-ynh_script_progression --message="Restoring the PostgreSQL database..." --weight=1
-
-ynh_psql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name" < ./db.sql
-
-#=================================================
-# PYTHON VIRTUALENV
-# Maybe the backup contains another Python version
-#=================================================
-ynh_script_progression --message="Updating Python virtualenv and rebuilding $app..." --weight=5
-
-# Always recreate everything fresh with current python version
-ynh_secure_remove "$install_dir/venv"
-_venv_install
-chown -R "$app:www-data" "$install_dir"
-_build_app
-
-#=================================================
-# RESTORE SYSTEM CONFIGURATIONS
-#=================================================
-ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
+ynh_script_progression --message="Restoring the NGINX web server configuration..." --weight=1
 
 ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
-ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
-systemctl enable "$app.service" --quiet
-yunohost service add "$app" --description="Django-fritzconnection server" --log="/var/log/$app/$app.log"
+#=================================================
+# RESTORE THE APP MAIN DIR
+#=================================================
+ynh_script_progression --message="Restoring $app main directory..."
 
+ynh_restore_file --origin_path="$install_dir"
+ynh_restore_file --origin_path="$data_dir"
+
+ynh_script_progression --message="Set file permissions..."
+myynh_fix_file_permissions
+
+#=================================================
+# PYTHON VIRTUALENV
+# Maybe the backup contains a other Python version
+#=================================================
+ynh_script_progression --message="Create and setup Python virtualenv..." --weight=45
+
+myynh_setup_python_venv
+
+#=================================================
+# RESTORE THE PostgreSQL DATABASE
+#=================================================
+ynh_script_progression --message="Restoring the PostgreSQL database..." --weight=5
+
+ynh_psql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
+
+#=================================================
+# RESTORE SYSTEMD
+#=================================================
+ynh_script_progression --message="Restoring the systemd $app configuration..."
+
+ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
+systemctl enable $app.service --quiet
+
+#=================================================
+# INTEGRATE SERVICE IN YUNOHOST
+#=================================================
+ynh_script_progression --message="Integrating service in YunoHost..."
+
+yunohost service add --description $app $app
+
+#=================================================
+# RESTORE THE LOGROTATE CONFIGURATION
+#=================================================
+ynh_script_progression --message="Setup logging..."
+
+myynh_setup_log_file
 ynh_restore_file --origin_path="/etc/logrotate.d/$app"
 
 #=================================================
-# RESTORE VARIOUS FILES
+# GENERIC FINALIZATION
 #=================================================
-
-ynh_restore_file --origin_path="/var/log/$app/"
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Set file permissions..."
+myynh_fix_file_permissions
 
 #=================================================
-# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+# GENERIC FINALIZATION
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server and $app's service..." --weight=1
+# START PYINVENTORY
+#=================================================
+ynh_script_progression --message="Starting systemd service '$app'..." --weight=5
 
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --log_path="$log_file"
 
-ynh_systemd_action --service_name=nginx --action=reload
+#=================================================
+# RELOAD NGINX
+#=================================================
+ynh_script_progression --message="Reloading nginx web server..."
+
+ynh_systemd_action --service_name="nginx" --action="reload"
 
 #=================================================
 # END OF SCRIPT

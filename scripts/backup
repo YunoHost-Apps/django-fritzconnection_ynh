@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #=================================================
+# GENERIC START
+#=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
 
@@ -16,32 +18,37 @@ ynh_print_info --message="Declaring files to be backed up..."
 # BACKUP THE APP MAIN DIR
 #=================================================
 
+# /var/www/$app/
 ynh_backup --src_path="$install_dir"
 
+# /home/yunohost.app/$app/
+ynh_backup --src_path="$data_dir"
+
 #=================================================
-# SYSTEM CONFIGURATION
+# BACKUP THE NGINX CONFIGURATION
 #=================================================
 
-# Backup the nginx configuration
 ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
-
-# Backup the systemd service unit
-ynh_backup --src_path="/etc/systemd/system/$app.service"
-
-# Backup the logrotate configuration
-ynh_backup --src_path="/etc/logrotate.d/$app"
-
-#=================================================
-# BACKUP VARIOUS FILES
-#=================================================
-
-ynh_backup --src_path="/var/log/$app/"
 
 #=================================================
 # BACKUP THE PostgreSQL DATABASE
 #=================================================
 
 ynh_psql_dump_db --database="$db_name" > db.sql
+
+#=================================================
+# SPECIFIC BACKUP
+#=================================================
+# BACKUP LOGROTATE
+#=================================================
+
+ynh_backup --src_path="/etc/logrotate.d/$app"
+
+#=================================================
+# BACKUP SYSTEMD
+#=================================================
+
+ynh_backup --src_path="/etc/systemd/system/$app.service"
 
 #=================================================
 # END OF SCRIPT
