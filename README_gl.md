@@ -11,28 +11,25 @@ NON debe editarse manualmente.
 
 *[Le este README en outros idiomas.](./ALL_README.md)*
 
-> *Este paquete permíteche instalar django-fritzconnection de xeito rápido e doado nun servidor YunoHost.*
+> *Este paquete permíteche instalar django-fritzconnection de xeito rápido e doado nun servidor YunoHost.*  
 > *Se non usas YunoHost, le a [documentación](https://yunohost.org/install) para saber como instalalo.*
 
 ## Vista xeral
 
 Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
+[![tests](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/github/jedie/djfritz_ynh/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/djfritz_ynh)
+[![djfritz_ynh @ PyPi](https://img.shields.io/pypi/v/djfritz_ynh?label=djfritz_ynh%20%40%20PyPi)](https://pypi.org/project/djfritz_ynh/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/djfritz_ynh)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/blob/main/pyproject.toml)
+[![License GPL-3.0-or-later](https://img.shields.io/pypi/l/djfritz_ynh)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/blob/main/LICENSE)
 
-The basic idea is to block/unblock Internet access to a group of devices as easily as possible.
-
-
-[![pytest](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml/badge.svg?branch=master)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/pytest.yml) [![YunoHost apps package linter](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml/badge.svg)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/package_linter.yml) [![Coverage Status on codecov.io](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh/branch/master/graph/badge.svg)](https://codecov.io/gh/YunoHost-Apps/django-fritzconnection_ynh)
-
-![django-fritzconnection @ PyPi](https://img.shields.io/pypi/v/django-fritzconnection?label=django-fritzconnection%20%40%20PyPi)
-![Python Versions](https://img.shields.io/pypi/pyversions/django-fritzconnection)
-![License GPL V3+](https://img.shields.io/pypi/l/django-fritzconnection)
 
 Pull requests welcome ;)
 
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Versión proporcionada:** 0.2.0~ynh3
+**Versión proporcionada:** 0.3.0~ynh4
 
 ## Capturas de pantalla
 
@@ -40,7 +37,9 @@ This package for YunoHost used [django-yunohost-integration](https://github.com/
 
 ## Documentación e recursos
 
-- Repositorio de orixe do código: <https://github.com/jedie/django-fritzconnection>
+- Documentación oficial para usuarias: <https://github.com/jedie/django-fritzconnection>
+- Documentación oficial para admin: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh>
+- Repositorio de orixe do código: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh>
 - Tenda YunoHost: <https://apps.yunohost.org/app/django-fritzconnection>
 - Informar dun problema: <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
