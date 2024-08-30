@@ -12,52 +12,51 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 admin_email="$(ynh_user_get_info "$admin" mail)"
-ynh_app_setting_set --app="$app" --key=admin_email --value="$admin_email"
+ynh_app_setting_set --key=admin_email --value="$admin_email"
 
 redis_db=$(ynh_redis_get_free_db)
-ynh_app_setting_set --app="$app" --key=redis_db --value="$redis_db"
+ynh_app_setting_set --key=redis_db --value="$redis_db"
 
 #-------------------------------------------------
 # config_panel.toml settings:
 
 debug_enabled="0"
-ynh_app_setting_set --app="$app" --key=debug_enabled --value="$debug_enabled"
+ynh_app_setting_set --key=debug_enabled --value="$debug_enabled"
 log_level="WARNING"
-ynh_app_setting_set --app="$app" --key=log_level --value="$log_level"
+ynh_app_setting_set --key=log_level --value="$log_level"
 default_from_email="${app}@${domain}"
-ynh_app_setting_set --app="$app" --key=default_from_email --value="$default_from_email"
+ynh_app_setting_set --key=default_from_email --value="$default_from_email"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression "Setting up source files..."
 
 mkdir -p "$install_dir/"{app,public/media,public/static}
 
-ynh_add_config --template="requirements.txt" --destination="$install_dir/app/requirements.txt"
+ynh_config_add --template="requirements.txt" --destination="$install_dir/app/requirements.txt"
 
-ynh_add_config --template="gunicorn.conf.py" --destination="$install_dir/app/gunicorn.conf.py"
+ynh_config_add --template="gunicorn.conf.py" --destination="$install_dir/app/gunicorn.conf.py"
 
-ynh_add_config --template="manage.py" --destination="$install_dir/app/manage.py"
+ynh_config_add --template="manage.py" --destination="$install_dir/app/manage.py"
 chmod +x "$install_dir/app/manage.py"
 
-ynh_add_config --template="settings.py" --destination="$install_dir/app/settings.py"
-ynh_add_config --template="setup_user.py" --destination="$install_dir/app/setup_user.py"
-ynh_add_config --template="urls.py" --destination="$install_dir/app/urls.py"
-ynh_add_config --template="wsgi.py" --destination="$install_dir/app/wsgi.py"
+ynh_config_add --template="settings.py" --destination="$install_dir/app/settings.py"
+ynh_config_add --template="setup_user.py" --destination="$install_dir/app/setup_user.py"
+ynh_config_add --template="urls.py" --destination="$install_dir/app/urls.py"
+ynh_config_add --template="wsgi.py" --destination="$install_dir/app/wsgi.py"
 
 touch "$install_dir/app/local_settings.py"
 
-chown -R "$app:www-data" "$install_dir"
-
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
 mkdir -p "/var/log/$app"
 touch "/var/log/$app/$app.log"
-chown -R "$app:$app" "/var/log/$app"
+#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "/var/log/$app"
 
 #=================================================
 # PYTHON VIRTUALENV
 #=================================================
-ynh_script_progression --message="Installing $app..." --weight=10
+ynh_script_progression "Installing $app..."
 
 _venv_install
 
@@ -65,44 +64,44 @@ _build_app
 
 pushd "$install_dir/app"
     # Just for debugging:
-    ynh_exec_as "$app" "$venvpy" ./manage.py diffsettings
+    ynh_exec_as_app "$venvpy" ./manage.py diffsettings
 
-    ynh_exec_as "$app" "$venvpy" ./manage.py migrate --no-input
-    ynh_exec_as "$app" "$venvpy" ./manage.py collectstatic --no-input
+    ynh_exec_as_app "$venvpy" ./manage.py migrate --no-input
+    ynh_exec_as_app "$venvpy" ./manage.py collectstatic --no-input
 
     # Create/update Django superuser (set unusable password, because auth done via SSOwat):
-    ynh_exec_as "$app" "$venvpy" ./manage.py create_superuser --username="$admin" --email="$(ynh_user_get_info "$admin" mail)"
+    ynh_exec_as_app "$venvpy" ./manage.py create_superuser --username="$admin" --email="$(ynh_user_get_info "$admin" mail)"
 
     # Check the configuration
     # This may fail in some cases with errors, etc., but the app works and the user can fix issues later.
-    ynh_exec_as "$app" "$venvpy" ./manage.py check --deploy || true
+    ynh_exec_as_app "$venvpy" ./manage.py check --deploy || true
 popd
 
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+ynh_script_progression "Adding system configurations related to $app..."
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 yunohost service add "$app" --description="Django-fritzconnection server" --log="/var/log/$app/$app.log"
 
 # Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate "$log_file"
+ynh_config_add_logrotate "$log_file"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting $app's systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service="$app" --action="start"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed" --last
+ynh_script_progression "Installation of $app completed"

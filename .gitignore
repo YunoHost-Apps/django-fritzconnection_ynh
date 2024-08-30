@@ -9,3 +9,6 @@ secret.txt
 /local_test/
 /coverage.xml
 /htmlcov/
+*~
+*.sw[op]
+.DS_Store
