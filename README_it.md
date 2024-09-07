@@ -11,7 +11,7 @@ NON DEVE essere modificato manualmente.
 
 *[Leggi questo README in altre lingue.](./ALL_README.md)*
 
-> *Questo pacchetto ti permette di installare django-fritzconnection su un server YunoHost in modo semplice e veloce.*  
+> *Questo pacchetto ti permette di installare django-fritzconnection su un server YunoHost in modo semplice e veloce.*
 > *Se non hai YunoHost, consulta [la guida](https://yunohost.org/install) per imparare a installarlo.*
 
 ## Panoramica
