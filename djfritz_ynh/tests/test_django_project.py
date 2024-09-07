@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 from axes.models import AccessLog
-from bx_django_utils.test_utils.html_assertion import HtmlAssertionMixin
+from bx_django_utils.test_utils.html_assertion import HtmlAssertionMixin, assert_html_response_snapshot
 from django.conf import LazySettings, settings
 from django.contrib.auth.models import User
 from django.template.defaulttags import CsrfTokenNode
@@ -9,6 +9,7 @@ from django.test import override_settings
 from django.test.testcases import TestCase
 from django.urls.base import reverse
 from django_yunohost_integration.test_utils import generate_basic_auth
+from djfritz_project.tests.utilities import DefaultMocks, NoFritzBoxConnection
 
 
 @override_settings(DEBUG=False)
@@ -66,7 +67,10 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
 
         self.client.cookies['SSOwAuthUser'] = 'test'
 
-        with patch.object(CsrfTokenNode, 'render', return_value='MockedCsrfTokenNode'):
+        with (
+            DefaultMocks(),
+            NoFritzBoxConnection(),
+        ):
             response = self.client.get(
                 path='/app_path/admin/',
                 HTTP_REMOTE_USER='test',
@@ -80,7 +84,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         assert user.username == 'test'
         assert user.is_active is True
         assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
-        assert user.is_superuser is False
+        assert user.is_superuser is True  # Set by: conf.setup_user.setup_project_user
 
         self.assert_html_parts(
             response,
@@ -89,7 +93,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
                 '<strong>test</strong>',
             ),
         )
-        # TODO: assert_html_response_snapshot(response, query_selector='#container', validate=False)
+        assert_html_response_snapshot(response, query_selector='#container', validate=False)
 
     def test_wrong_auth_user(self):
         assert User.objects.count() == 0
@@ -110,7 +114,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         assert user.username == 'test'
         assert user.is_active is True
         assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
-        assert user.is_superuser is False
+        assert user.is_superuser is True  # Set by: conf.setup_user.setup_project_user
 
         assert AccessLog.objects.count() == 1
 
@@ -135,7 +139,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         assert user.username == 'test'
         assert user.is_active is True
         assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
-        assert user.is_superuser is False
+        assert user.is_superuser is True  # Set by: conf.setup_user.setup_project_user
 
         assert AccessLog.objects.count() == 1
 
@@ -162,7 +166,7 @@ class DjangoYnhTestCase(HtmlAssertionMixin, TestCase):
         assert user.username == 'test'
         assert user.is_active is True
         assert user.is_staff is True  # Set by: conf.setup_user.setup_project_user
-        assert user.is_superuser is False
+        assert user.is_superuser is True  # Set by: conf.setup_user.setup_project_user
 
         assert AccessLog.objects.count() == 1
 
