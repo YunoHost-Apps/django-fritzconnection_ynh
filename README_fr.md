@@ -16,20 +16,20 @@ Il NE doit PAS être modifié à la main.
 
 ## Vue d’ensemble
 
-Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 [![tests](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/github/jedie/djfritz_ynh/branch/main/graph/badge.svg)](https://app.codecov.io/github/jedie/djfritz_ynh)
 [![djfritz_ynh @ PyPi](https://img.shields.io/pypi/v/djfritz_ynh?label=djfritz_ynh%20%40%20PyPi)](https://pypi.org/project/djfritz_ynh/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/djfritz_ynh)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/blob/main/pyproject.toml)
 [![License GPL-3.0-or-later](https://img.shields.io/pypi/l/djfritz_ynh)](https://github.com/YunoHost-Apps/django-fritzconnection_ynh/blob/main/LICENSE)
 
+Web based FritzBox management using Python/Django and the great [fritzconnection](https://github.com/kbr/fritzconnection) library.
 
 Pull requests welcome ;)
 
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Version incluse :** 0.3.0~ynh4
+**Version incluse :** 0.4.0~ynh1
 
 ## Captures d’écran
 
@@ -37,9 +37,7 @@ This package for YunoHost used [django-yunohost-integration](https://github.com/
 
 ## Documentations et ressources
 
-- Documentation officielle utilisateur : <https://github.com/jedie/django-fritzconnection>
-- Documentation officielle de l’admin : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh>
-- Dépôt de code officiel de l’app : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh>
+- Dépôt de code officiel de l’app : <https://github.com/jedie/django-fritzconnection>
 - YunoHost Store : <https://apps.yunohost.org/app/django-fritzconnection>
 - Signaler un bug : <https://github.com/YunoHost-Apps/django-fritzconnection_ynh/issues>
 
