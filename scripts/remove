@@ -1,29 +1,62 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# REMOVE SYSTEM CONFIGURATIONS
+# STANDARD REMOVE
 #=================================================
-ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
+# REMOVE SERVICE FROM ADMIN PANEL
+#=================================================
 
-# Remove the service from the list of services known by YunoHost (added from `yunohost service add`)
-if ynh_exec_warn_less yunohost service status "$app" >/dev/null; then
-    yunohost service remove "$app"
+# Remove a service from the admin panel, added by `yunohost service add`
+if yunohost service status $app >/dev/null 2>&1
+then
+	ynh_script_progression "Removing $app service integration..."
+	yunohost service remove $app
 fi
 
-ynh_remove_systemd_config
+#=================================================
+# STOP APP'S SERVICES
+#=================================================
+ynh_script_progression "Stopping and removing systemd service '$app'..."
 
-ynh_remove_nginx_config
+ynh_config_remove_systemd
 
-ynh_remove_logrotate
+##=================================================
+## REMOVE REDIS DB
+##=================================================
+
+ynh_redis_remove_db
+
+#=================================================
+# REMOVE APP MAIN DIR
+#=================================================
+ynh_script_progression "Removing app main directory..."
+
+# /var/www/$app/
+ynh_safe_rm "$install_dir"
+
+# /home/yunohost.app/$app/
+ynh_safe_rm "$data_dir"
+
+#=================================================
+# REMOVE NGINX CONFIGURATION
+#=================================================
+ynh_script_progression "Removing nginx web server configuration..."
+
+# Remove the dedicated nginx config
+ynh_config_remove_nginx
+
+#=================================================
+# REMOVE LOGROTATE CONFIGURATION
+#=================================================
+ynh_script_progression "Removing logrotate configuration..."
+
+# Remove the app-specific logrotate config
+ynh_config_remove_logrotate
 
 #=================================================
 # END OF SCRIPT
 #=================================================
-ynh_script_progression --message="Removal of $app completed" --last
+ynh_script_progression "Removal of $app completed"

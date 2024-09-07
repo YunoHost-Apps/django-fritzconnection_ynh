@@ -1,6 +1,10 @@
+
+
 name: YunoHost apps package linter
 
 on:
+  # Allow to manually trigger the workflow
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -12,12 +16,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: 'Clone YunoHost apps package linter'
         run: |
           git clone --depth=1 https://github.com/YunoHost/package_linter ~/package_linter
 
+      - name: 'Install requirements'
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade toml jsonschema pyparsing six
+
       - name: 'Run linter'
         run: |
           ~/package_linter/package_linter.py .
+

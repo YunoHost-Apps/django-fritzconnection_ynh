@@ -4,5 +4,6 @@ def setup_project_user(user):
     Called from django_yunohost_integration.sso_auth
     """
     user.is_staff = True
+    user.is_superuser = True
     user.save()
     return user

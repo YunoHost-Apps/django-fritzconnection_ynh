@@ -1,0 +1,344 @@
+<div id="container">
+ <!-- Header -->
+ <header id="header">
+  <div id="branding">
+   <h1 id="site-name">
+    <a href="/app_path/admin/">
+     django-fritzconnection vMockedVersion
+    </a>
+   </h1>
+  </div>
+  &lt;not connected&gt;
+  <div id="user-tools">
+   Welcome,
+   <strong>
+    test
+   </strong>
+   .
+   <a href="/">
+    View site
+   </a>
+   /
+   <a href="/app_path/admin/password_change/">
+    Change password
+   </a>
+   /
+   <form action="/app_path/admin/logout/" id="logout-form" method="post">
+    MockedCsrfTokenNode
+    <button type="submit">
+     Log out
+    </button>
+   </form>
+   <button class="theme-toggle">
+    <span class="visually-hidden theme-label-when-auto">
+     Toggle theme (current theme: auto)
+    </span>
+    <span class="visually-hidden theme-label-when-light">
+     Toggle theme (current theme: light)
+    </span>
+    <span class="visually-hidden theme-label-when-dark">
+     Toggle theme (current theme: dark)
+    </span>
+    <svg aria-hidden="true" class="theme-icon-when-auto">
+     <use xlink:href="#icon-auto">
+     </use>
+    </svg>
+    <svg aria-hidden="true" class="theme-icon-when-dark">
+     <use xlink:href="#icon-moon">
+     </use>
+    </svg>
+    <svg aria-hidden="true" class="theme-icon-when-light">
+     <use xlink:href="#icon-sun">
+     </use>
+    </svg>
+   </button>
+  </div>
+ </header>
+ <!-- END Header -->
+ <div class="main" id="main">
+  <main class="content" id="content-start" tabindex="-1">
+   <!-- Content -->
+   <div class="colMS" id="content">
+    <h1>
+     Site administration
+    </h1>
+    <div id="content-main">
+     <div class="app-auth module">
+      <table>
+       <caption>
+        <a class="section" href="/app_path/admin/auth/" title="Models in the Authentication and Authorization application">
+         Authentication and Authorization
+        </a>
+       </caption>
+       <tr class="model-group">
+        <th id="auth-group" scope="row">
+         <a href="/app_path/admin/auth/group/">
+          Groups
+         </a>
+        </th>
+        <td>
+         <a aria-describedby="auth-group" class="addlink" href="/app_path/admin/auth/group/add/">
+          Add
+         </a>
+        </td>
+        <td>
+         <a aria-describedby="auth-group" class="changelink" href="/app_path/admin/auth/group/">
+          Change
+         </a>
+        </td>
+       </tr>
+       <tr class="model-user">
+        <th id="auth-user" scope="row">
+         <a href="/app_path/admin/auth/user/">
+          Users
+         </a>
+        </th>
+        <td>
+         <a aria-describedby="auth-user" class="addlink" href="/app_path/admin/auth/user/add/">
+          Add
+         </a>
+        </td>
+        <td>
+         <a aria-describedby="auth-user" class="changelink" href="/app_path/admin/auth/user/">
+          Change
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+     <div class="app-axes module">
+      <table>
+       <caption>
+        <a class="section" href="/app_path/admin/axes/" title="Models in the Axes application">
+         Axes
+        </a>
+       </caption>
+       <tr class="model-accessattempt">
+        <th id="axes-accessattempt" scope="row">
+         <a href="/app_path/admin/axes/accessattempt/">
+          Access attempts
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="axes-accessattempt" class="changelink" href="/app_path/admin/axes/accessattempt/">
+          Change
+         </a>
+        </td>
+       </tr>
+       <tr class="model-accessfailurelog">
+        <th id="axes-accessfailurelog" scope="row">
+         <a href="/app_path/admin/axes/accessfailurelog/">
+          Access failures
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="axes-accessfailurelog" class="changelink" href="/app_path/admin/axes/accessfailurelog/">
+          Change
+         </a>
+        </td>
+       </tr>
+       <tr class="model-accesslog">
+        <th id="axes-accesslog" scope="row">
+         <a href="/app_path/admin/axes/accesslog/">
+          Access logs
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="axes-accesslog" class="changelink" href="/app_path/admin/axes/accesslog/">
+          Change
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+     <div class="app-djfritz module">
+      <table>
+       <caption>
+        <a class="section" href="/app_path/admin/djfritz/" title="Models in the DjFritz application">
+         DjFritz
+        </a>
+       </caption>
+       <tr class="model-hostgroupmodel">
+        <th id="djfritz-hostgroupmodel" scope="row">
+         <a href="/app_path/admin/djfritz/hostgroupmodel/">
+          Host-Groups
+         </a>
+        </th>
+        <td>
+         <a aria-describedby="djfritz-hostgroupmodel" class="addlink" href="/app_path/admin/djfritz/hostgroupmodel/add/">
+          Add
+         </a>
+        </td>
+        <td>
+         <a aria-describedby="djfritz-hostgroupmodel" class="changelink" href="/app_path/admin/djfritz/hostgroupmodel/">
+          Change
+         </a>
+        </td>
+       </tr>
+       <tr class="model-hostmodel">
+        <th id="djfritz-hostmodel" scope="row">
+         <a href="/app_path/admin/djfritz/hostmodel/">
+          Hosts
+         </a>
+        </th>
+        <td>
+         <a aria-describedby="djfritz-hostmodel" class="addlink" href="/app_path/admin/djfritz/hostmodel/add/">
+          Add
+         </a>
+        </td>
+        <td>
+         <a aria-describedby="djfritz-hostmodel" class="changelink" href="/app_path/admin/djfritz/hostmodel/">
+          Change
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+     <div class="app-diagnose module">
+      <table>
+       <caption>
+        <a class="section" href="" title="Models in the Diagnose application">
+         Diagnose
+        </a>
+       </caption>
+       <tr class="model-">
+        <th id="diagnose-" scope="row">
+         <a href="/app_path/admin/diagnose/list-all-fritzbox-services/">
+          List all FritzBox services
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="diagnose-" class="viewlink" href="/app_path/admin/diagnose/list-all-fritzbox-services/">
+          View
+         </a>
+        </td>
+       </tr>
+       <tr class="model-">
+        <th id="diagnose-" scope="row">
+         <a href="/app_path/admin/diagnose/test-fritzbox-connection/">
+          Test FritzBox connection
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="diagnose-" class="viewlink" href="/app_path/admin/diagnose/test-fritzbox-connection/">
+          View
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+     <div class="app-host-information module">
+      <table>
+       <caption>
+        <a class="section" href="" title="Models in the Host information application">
+         Host information
+        </a>
+       </caption>
+       <tr class="model-">
+        <th id="host-information-" scope="row">
+         <a href="/app_path/admin/host-information/get-information-about-registered-hosts/">
+          Get information about registered hosts
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="host-information-" class="viewlink" href="/app_path/admin/host-information/get-information-about-registered-hosts/">
+          View
+         </a>
+        </td>
+       </tr>
+       <tr class="model-">
+        <th id="host-information-" scope="row">
+         <a href="/app_path/admin/host-information/get-raw-mesh-topology/">
+          Get raw mesh topology
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="host-information-" class="viewlink" href="/app_path/admin/host-information/get-raw-mesh-topology/">
+          View
+         </a>
+        </td>
+       </tr>
+       <tr class="model-">
+        <th id="host-information-" scope="row">
+         <a href="/app_path/admin/host-information/list-last-connect-information-about-hosts/">
+          List "last connect" information about hosts
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="host-information-" class="viewlink" href="/app_path/admin/host-information/list-last-connect-information-about-hosts/">
+          View
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+     <div class="app-management module">
+      <table>
+       <caption>
+        <a class="section" href="" title="Models in the Management application">
+         Management
+        </a>
+       </caption>
+       <tr class="model-">
+        <th id="management-" scope="row">
+         <a href="/app_path/admin/management/manage-host-wan-access-via-host-groups/">
+          Manage host WAN access via host-groups
+         </a>
+        </th>
+        <td>
+        </td>
+        <td>
+         <a aria-describedby="management-" class="viewlink" href="/app_path/admin/management/manage-host-wan-access-via-host-groups/">
+          View
+         </a>
+        </td>
+       </tr>
+      </table>
+     </div>
+    </div>
+    <div id="content-related">
+     <div class="module" id="recent-actions-module">
+      <h2>
+       Recent actions
+      </h2>
+      <h3>
+       My actions
+      </h3>
+      <p>
+       None available
+      </p>
+     </div>
+    </div>
+    <br class="clear"/>
+   </div>
+   <!-- END Content -->
+  </main>
+ </div>
+ <footer id="footer">
+  <div class="submit-row" id="footer">
+   <a href="https://github.com/jedie/django-fritzconnection">
+    github.com/jedie/django-fritzconnection
+   </a>
+   |
+   <a href="https://github.com/kbr/fritzconnection">
+    github.com/kbr/fritzconnection
+   </a>
+  </div>
+ </footer>
+</div>
