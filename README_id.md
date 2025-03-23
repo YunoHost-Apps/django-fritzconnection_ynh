@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # django-fritzconnection untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/django-fritzconnection)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/)
+![Status kerja](https://apps.yunohost.org/badge/state/django-fritzconnection)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/django-fritzconnection)
 
 [![Pasang django-fritzconnection dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
@@ -29,7 +31,7 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Versi terkirim:** 0.4.0~ynh1
+**Versi terkirim:** 0.4.0~ynh2
 
 ## Tangkapan Layar
 

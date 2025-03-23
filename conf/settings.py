@@ -59,9 +59,7 @@ if 'axes' not in INSTALLED_APPS:
 INSTALLED_APPS.append('django_yunohost_integration.apps.YunohostIntegrationConfig')
 
 
-SECRET_KEY = __get_or_create_secret(
-    DATA_DIR_PATH / 'secret.txt'
-)  # /home/yunohost.app/$app/secret.txt
+SECRET_KEY = __get_or_create_secret(DATA_DIR_PATH / 'secret.txt')  # /home/yunohost.app/$app/secret.txt
 
 
 MIDDLEWARE.insert(
@@ -163,16 +161,37 @@ MEDIA_ROOT = str(INSTALL_DIR_PATH / 'media')
 
 # -----------------------------------------------------------------------------
 
-# Set log file to e.g.: /var/log/$app/$app.log
-LOGGING['handlers']['log_file']['filename'] = str(LOG_FILE_PATH)
-
-# Example how to add logging to own app:
-LOGGING['loggers']['djfritz'] = {
-    'handlers': ['syslog', 'log_file', 'mail_admins'],
-    'propagate': False,
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {name} {module}.{funcName} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'log_file': {
+            'level': LOG_LEVEL,
+            'class': 'logging.handlers.WatchedFileHandler',
+            'formatter': 'verbose',
+            'filename': str(LOG_FILE_PATH),
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'formatter': 'verbose',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        '': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
+        'django': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
+        'axes': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
+        'django_yunohost_integration': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
+        'djfritz': {'handlers': ['log_file', 'mail_admins'], 'level': LOG_LEVEL, 'propagate': False},
+    },
 }
-for __logger_name in LOGGING['loggers'].keys():
-    LOGGING['loggers'][__logger_name]['level'] = 'DEBUG' if DEBUG else LOG_LEVEL
 
 # -----------------------------------------------------------------------------
 

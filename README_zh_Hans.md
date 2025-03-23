@@ -5,7 +5,9 @@
 
 # YunoHost 上的 django-fritzconnection
 
-[![集成程度](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![集成程度](https://apps.yunohost.org/badge/integration/django-fritzconnection)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/)
+![工作状态](https://apps.yunohost.org/badge/state/django-fritzconnection)
+![维护状态](https://apps.yunohost.org/badge/maintained/django-fritzconnection)
 
 [![使用 YunoHost 安装 django-fritzconnection](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
@@ -29,7 +31,7 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**分发版本：** 0.4.0~ynh1
+**分发版本：** 0.4.0~ynh2
 
 ## 截图
 
