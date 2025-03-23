@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # django-fritzconnection YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/django-fritzconnection.svg)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/django-fritzconnection.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/django-fritzconnection)](https://ci-apps.yunohost.org/ci/apps/django-fritzconnection/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/django-fritzconnection)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/django-fritzconnection)
 
 [![Instalatu django-fritzconnection YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=django-fritzconnection)
 
@@ -29,7 +31,7 @@ Pull requests welcome ;)
 This package for YunoHost used [django-yunohost-integration](https://github.com/YunoHost-Apps/django_yunohost_integration)
 
 
-**Paketatutako bertsioa:** 0.4.0~ynh1
+**Paketatutako bertsioa:** 0.4.0~ynh2
 
 ## Pantaila-argazkiak
 
