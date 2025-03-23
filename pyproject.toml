@@ -11,20 +11,21 @@ requires-python = ">=3.11"
 dependencies = [
     "django-fritzconnection>=0.4.0",  # https://github.com/jedie/django-fritzconnection
     #
-    # extras "ynh" will install: gunicorn, psycopg2, django-redis and django-axes
-    # see: https://github.com/YunoHost-Apps/django_yunohost_integration/blob/main/pyproject.toml
-    "django_yunohost_integration[ynh]",  # https://github.com/YunoHost-Apps/django_yunohost_integration
-    #
+    "django_yunohost_integration",  # https://github.com/YunoHost-Apps/django_yunohost_integration
+    "gunicorn",
+    "psycopg[binary]", # https://github.com/psycopg/psycopg
+    "django-redis",
+    "django-axes", # https://github.com/jazzband/django-axes
     "cli-base-utilities",  # https://github.com/jedie/cli-base-utilities
 ]
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
+    "manageprojects",  # https://github.com/jedie/manageprojects
     "bx_django_utils",  # https://github.com/boxine/bx_django_utils
     "beautifulsoup4",  # https://pypi.org/project/beautifulsoup4/
-    "manageprojects>=0.18.0",  # https://github.com/jedie/manageprojects
-    "pip-tools",  # https://github.com/jazzband/pip-tools/
+    "uv",  # https://github.com/astral-sh/uv
     "tblib",   # https://github.com/ionelmc/python-tblib
-    "tox",  # https://github.com/tox-dev/tox
+    "nox",  # https://github.com/wntrblm/nox
     "coverage",  # https://github.com/nedbat/coveragepy
     "autopep8",  # https://github.com/hhatto/autopep8
     "pyupgrade",  # https://github.com/asottile/pyupgrade
@@ -35,19 +36,14 @@ dev = [
     "EditorConfig",  # https://github.com/editorconfig/editorconfig-core-py
     "pip-audit",  # https://github.com/pypa/pip-audit
     "mypy",  # https://github.com/python/mypy
-    "typeguard",  # https://github.com/agronholm/typeguard/
     "twine",  # https://github.com/pypa/twine
+    "typeguard",  # https://github.com/agronholm/typeguard/
 
     # https://github.com/akaihola/darker
     # https://github.com/ikamensh/flynt
     # https://github.com/pycqa/isort
     # https://github.com/pygments/pygments
     "darker[flynt, isort, color]",
-
-    # Work-a-round for: https://github.com/jazzband/pip-tools/issues/1866
-    # see also: https://github.com/jazzband/pip-tools/issues/994#issuecomment-1321226661
-    # backports.tarfile is needed for python <3.12
-    'backports.tarfile', # via jaraco-context -> keyring -> twine
 ]
 
 [project.urls]
@@ -55,8 +51,7 @@ Documentation = "https://github.com/YunoHost-Apps/django-fritzconnection_ynh"
 Source = "https://github.com/YunoHost-Apps/django-fritzconnection_ynh"
 
 [project.scripts]
-djfritz_ynh_app = "djfritz_ynh.__main__:main"
-djfritz_ynh_dev = "djfritz_ynh.cli.dev:main"
+djfritz_ynh_dev = "djfritz_ynh.cli_dev:main"
 
 
 [ynh-integration]
@@ -135,7 +130,7 @@ exclude_lines = [
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = py{312,311}
+envlist = py{313,312,311}
 skip_missing_interpreters = True
 
 [testenv]
@@ -168,6 +163,7 @@ cookiecutter_template = "https://github.com/jedie/cookiecutter_templates/"
 cookiecutter_directory = "yunohost_django_package"
 applied_migrations = [
     "6fa011a", # 2024-09-07T11:11:40+02:00
+    "b7f2cb5", # 2025-03-23T15:08:42+01:00
 ]
 
 [manageprojects.cookiecutter_context.cookiecutter]
@@ -182,7 +178,7 @@ upstream_pkg_project_name = "djfritz_project"
 ynh_app_pkg_name = "djfritz_ynh"
 ynh_app_url = "https://github.com/YunoHost-Apps/django-fritzconnection_ynh"
 bug_tracker_url = "https://github.com/jedie/django-fritzconnection/issues"
-upstream_version = "0.3.0"
+upstream_version = "0.4.0"
 ynh_version = "+ynh3"
 package_description = "Web based FritzBox management using Python/Django."
 license = "GPL-3.0-or-later"
